@@ -1,9 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:klaverjasapp/screens/ScoreScreen.dart';
 
 void main() {
-
-  runApp(MyApp());
-
+  runApp(const MyApp());
 }
 
 class MyApp extends StatelessWidget {
@@ -12,20 +11,7 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      theme: ThemeData(
-        colorScheme: ColorScheme.fromSeed(seedColor: Colors.blue)
-      ),
-      home: Scaffold(
-        appBar: AppBar(
-          backgroundColor: Colors.blue,
-          title: Text("ballz"),
-        ), 
-        body: Container(
-          child: Center(
-            child: AllPlayers()
-          ),
-        ),
-      ),
+      home: ScoreScreen(),
     );
   }
 }
@@ -36,7 +22,7 @@ class AllPlayers extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
-    
+
     return Scaffold(
       body: Wrap(
         children: [
@@ -64,7 +50,7 @@ class PlayerCard extends StatelessWidget {
       color: theme.colorScheme.primary,
       elevation: 5,
       child: Text(
-        'ballz', 
+        'ballz',
         style: style,
       ),
     );
