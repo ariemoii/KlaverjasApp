@@ -32,16 +32,16 @@ class MyAppState extends ChangeNotifier {
     notifyListeners();
   }
 
-	var favourites = <WordPair>{};
+  var favourites = <WordPair>{};
 
-	void toggleFavourite() {
-		if(favourites.contains(current)) {
-			favourites.remove(current);
-		} else {
-			favourites.add(current);
-		}
-		notifyListeners();
-	}
+  void toggleFavourite() {
+    if (favourites.contains(current)) {
+      favourites.remove(current);
+    } else {
+      favourites.add(current);
+    }
+    notifyListeners();
+  }
 }
 
 // ...
@@ -52,21 +52,19 @@ class MyHomePage extends StatefulWidget {
 }
 
 class _MyHomePageState extends State<MyHomePage> {
-
-	var selectedIndex = 0;
+  var selectedIndex = 0;
 
   @override
   Widget build(BuildContext context) {
-		Widget page;
-		switch(selectedIndex) {
-			case 0: 
-				page = GeneratorPage();
-			case 1:
-				page = FavPage();
-			default: 
-				throw UnimplementedError("This widget is not yet implemented");
-		}
-
+    Widget page;
+    switch (selectedIndex) {
+      case 0:
+        page = GeneratorPage();
+      case 1:
+        page = FavPage();
+      default:
+        throw UnimplementedError("This widget is not yet implemented");
+    }
 
     return LayoutBuilder(
       builder: (context, constraints) {
@@ -103,37 +101,37 @@ class _MyHomePageState extends State<MyHomePage> {
             ],
           ),
         );
-      }
+      },
     );
   }
 }
 
 class FavPage extends StatelessWidget {
-	@override
+  @override
   Widget build(BuildContext context) {
-		var appState = context.watch<MyAppState>();
-		final theme = Theme.of(context);
-		final style = theme.textTheme.displayMedium!.copyWith(
-      color: theme.colorScheme.onPrimary,	
-			fontSize: 20,
-     );
+    var appState = context.watch<MyAppState>();
+    final theme = Theme.of(context);
+    final style = theme.textTheme.displayMedium!.copyWith(
+      color: theme.colorScheme.onPrimary,
+      fontSize: 20,
+    );
     return Center(
-			child: ListView(
-				scrollDirection: Axis.vertical,
-				children: [
-					Text('Your Favourites:'),
-					for(var fav in appState.favourites) 
-						Card(
-							color: theme.colorScheme.primary,
-							elevation: 5,
-							child: Padding(
-								padding: const EdgeInsets.all(8.0),
-								child: Text(fav.asLowerCase, style: style),
-							),
-						)
-				],
-			),
-		);
+      child: ListView(
+        scrollDirection: Axis.vertical,
+        children: [
+          Text('Your Favourites:'),
+          for (var fav in appState.favourites)
+            Card(
+              color: theme.colorScheme.primary,
+              elevation: 5,
+              child: Padding(
+                padding: const EdgeInsets.all(8.0),
+                child: Text(fav.asLowerCase, style: style),
+              ),
+            ),
+        ],
+      ),
+    );
   }
 }
 
@@ -183,12 +181,8 @@ class GeneratorPage extends StatelessWidget {
 
 // ...
 
-
 class BigCard extends StatelessWidget {
-  const BigCard({
-    super.key,
-    required this.pair,
-  });
+  const BigCard({super.key, required this.pair});
 
   final WordPair pair;
 
@@ -198,14 +192,14 @@ class BigCard extends StatelessWidget {
 
     final style = theme.textTheme.displayMedium!.copyWith(
       color: theme.colorScheme.onPrimary,
-     );
+    );
 
     return Card(
       color: theme.colorScheme.primary,
       elevation: 5,
       child: Padding(
         padding: const EdgeInsets.all(20.0),
-        child: Text(pair.asLowerCase, style: style,),
+        child: Text(pair.asLowerCase, style: style),
       ),
     );
   }
