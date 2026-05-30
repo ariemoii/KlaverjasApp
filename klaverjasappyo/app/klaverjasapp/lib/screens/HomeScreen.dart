@@ -3,6 +3,8 @@ import 'package:klaverjasapp/screens/ScoreScreen.dart';
 import 'package:klaverjasapp/screens/TabItem.dart';
 
 class HomeScreen extends StatefulWidget {
+  const HomeScreen({super.key});
+
   @override
   State<HomeScreen> createState() => _HomeScreenState();
 }

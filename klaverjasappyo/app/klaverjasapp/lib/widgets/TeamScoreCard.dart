@@ -1,16 +1,12 @@
 import 'package:flutter/material.dart';
 
-class TeamScoreCard extends StatelessWidget{
+class TeamScoreCard extends StatelessWidget {
   final int score;
   final String teamName;
 
-  const TeamScoreCard({
-    super.key,
-    required this.score,
-    required this.teamName,
-  });
+  const TeamScoreCard({super.key, required this.score, required this.teamName});
 
-
+  @override
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
     final style = theme.textTheme.displayMedium!.copyWith(
@@ -20,10 +16,7 @@ class TeamScoreCard extends StatelessWidget{
     return Card(
       color: theme.colorScheme.primary,
       elevation: 5,
-      child: Text(
-        teamName,
-        style: style,
-      ),
+      child: Text(teamName, style: style),
     );
   }
 }

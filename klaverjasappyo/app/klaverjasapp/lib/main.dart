@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:klaverjasapp/screens/ScoreScreen.dart';
 import 'package:klaverjasapp/screens/HomeScreen.dart';
 
 void main() {
