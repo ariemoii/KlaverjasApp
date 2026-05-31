@@ -1,4 +1,4 @@
-import 'Team.dart';
+import 'Teams.dart';
 import 'RoemValue.dart';
 
 class RoundScore {
@@ -6,16 +6,16 @@ class RoundScore {
   int _team2score = 0;
 
   int _biddedScore = 0;
-  Team _playingTeam = Team.noTeam;
+  Teams _playingTeam = Teams.noTeam;
 
   int get team1score => _team1score;
   int get team2score => _team2score;
   int get biddedScore => _biddedScore;
-  Team get playingTeam => _playingTeam;
+  Teams get playingTeam => _playingTeam;
 
   //returns the total score once roem added
-  int addRoem(Team team, RoemValue roem) {
-    if (team == Team.team1) {
+  int addRoem(Teams team, RoemValue roem) {
+    if (team == Teams.team1) {
       _team1score += roem.value;
       return team1score;
     } else {
@@ -25,20 +25,19 @@ class RoundScore {
   }
 
   //returns the total score once roem substracted
-  int removeRoem(Team team, RoemValue roem) {
-    if (team == Team.team1) {
+  int removeRoem(Teams team, RoemValue roem) {
+    if (team == Teams.team1) {
       _team1score = (_team1score - roem.value).clamp(0, 9999);
       return team1score;
     } else {
       _team2score = (_team2score - roem.value).clamp(0, 9999);
       return team2score;
     }
-
   }
 
   //returns the total score once score added
-  int addScore(Team winningTeam, int score) {
-    if (winningTeam == Team.team1) {
+  int addScore(Teams winningTeam, int score) {
+    if (winningTeam == Teams.team1) {
       _team1score += score;
       return team1score;
     } else {
@@ -48,22 +47,21 @@ class RoundScore {
   }
 
   //returns the bidded score
-  int bidScore(int score, Team playingTeam) {
+  int bidScore(int score, Teams playingTeam) {
     _biddedScore = score;
     _playingTeam = playingTeam;
     return biddedScore;
   }
 
-
   Result calculateAndSetFinalScores() {
-    if (playingTeam == Team.team1) {
+    if (playingTeam == Teams.team1) {
       if (team1score <= biddedScore) {
         //NAT!
         _team2score += _team1score;
         _team1score = 0;
       }
     }
-    if (playingTeam == Team.team2) {
+    if (playingTeam == Teams.team2) {
       if (team2score <= biddedScore) {
         //NAT!
         _team1score += _team2score;
@@ -73,7 +71,6 @@ class RoundScore {
 
     return Result(team1score, team2score);
   }
-
 }
 
 class Result {

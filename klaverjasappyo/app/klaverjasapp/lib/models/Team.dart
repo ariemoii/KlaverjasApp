@@ -1,6 +1,6 @@
-enum Team {
-  team1,
-  team2,
+class Team {
+  String firstTeammate;
+  String secondTeammate;
 
-  noTeam,
+  Team({required this.firstTeammate, required this.secondTeammate});
 }

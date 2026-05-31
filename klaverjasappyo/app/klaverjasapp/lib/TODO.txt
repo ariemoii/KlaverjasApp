@@ -1,0 +1,5 @@
+1: become GOAT
+2: make names such that it is usable
+3: use names to generate teams
+4: be able to play a boompje (16 rounds)
+5: be able to access previous played games
