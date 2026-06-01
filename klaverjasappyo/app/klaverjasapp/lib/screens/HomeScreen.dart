@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:klaverjasapp/screens/ScoreScreen.dart';
+import 'package:klaverjasapp/screens/EnterNamesScreen.dart';
 import 'package:klaverjasapp/screens/TabItem.dart';
 import 'package:provider/provider.dart';
 import 'package:klaverjasapp/models/Team.dart';
@@ -18,7 +18,7 @@ class _HomeScreenState extends State<HomeScreen> {
     TabItem(
       page: ChangeNotifierProvider(
         create: (context) => TeamState(),
-        child: ScoreScreen(),
+        child: EnterNameScreen(),
       ),
       icon: Icons.home,
       label: 'Home',

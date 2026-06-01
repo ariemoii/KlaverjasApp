@@ -4,14 +4,14 @@ import 'package:klaverjasapp/widgets/EnterText.dart';
 import 'package:provider/provider.dart';
 import 'dart:developer';
 
-class ScoreScreen extends StatefulWidget {
-  const ScoreScreen({super.key});
+class EnterNameScreen extends StatefulWidget {
+  const EnterNameScreen({super.key});
 
   @override
-  State<ScoreScreen> createState() => _ScoreScreenState();
+  State<EnterNameScreen> createState() => _EnterNameScreenState();
 }
 
-class _ScoreScreenState extends State<ScoreScreen> {
+class _EnterNameScreenState extends State<EnterNameScreen> {
   Widget _chair({
     required BoxConstraints constraints,
     required double dx,
@@ -34,6 +34,8 @@ class _ScoreScreenState extends State<ScoreScreen> {
   }
 
   Future<void> _editTeamNameDialog(Teams whatTeam) async {
+    final teamState = context.read<TeamState>();
+
     if (whatTeam == Teams.noTeam) {
       log(
         "There is no team passed to _editTeamNameDialog in file ScoreScreen.dart",
@@ -63,14 +65,11 @@ class _ScoreScreenState extends State<ScoreScreen> {
     );
 
     if (result != null && result.isNotEmpty) {
-      setState(() {
-        final teamState = context.watch<TeamState>();
-        if (whatTeam == Teams.team1) {
-          teamState.editTeam1TeamName(result);
-        } else {
-          teamState.editTeam2TeamName(result);
-        }
-      });
+      if (whatTeam == Teams.team1) {
+        teamState.editTeam1TeamName(result);
+      } else {
+        teamState.editTeam2TeamName(result);
+      }
     }
   }
 
@@ -119,6 +118,24 @@ class _ScoreScreenState extends State<ScoreScreen> {
                   dy: 0.85,
                   name: (value) => teamState.editTeam1SecondTeammateName(value),
                   hintText: teamState.team1.teamName,
+                ),
+
+                Positioned(
+                  left: constraints.maxWidth * 0.15 - 50,
+                  top: constraints.maxHeight * 0.65 - 20,
+                  child: ElevatedButton(
+                    onPressed: () => _editTeamNameDialog(Teams.team1),
+                    child: Text(teamState.team1.teamName),
+                  ),
+                ),
+
+                Positioned(
+                  left: constraints.maxWidth * 0.75 - 50,
+                  top: constraints.maxHeight * 0.65 - 20,
+                  child: ElevatedButton(
+                    onPressed: () => _editTeamNameDialog(Teams.team2),
+                    child: Text(teamState.team2.teamName),
+                  ),
                 ),
               ],
             );
