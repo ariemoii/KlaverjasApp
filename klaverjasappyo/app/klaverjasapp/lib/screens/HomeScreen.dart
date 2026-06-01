@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:klaverjasapp/screens/ScoreScreen.dart';
 import 'package:klaverjasapp/screens/TabItem.dart';
+import 'package:provider/provider.dart';
+import 'package:klaverjasapp/models/Team.dart';
 
 class HomeScreen extends StatefulWidget {
   const HomeScreen({super.key});
@@ -13,7 +15,14 @@ class _HomeScreenState extends State<HomeScreen> {
   int selectedIndex = 0;
 
   final List<TabItem> tabs = [
-    TabItem(page: ScoreScreen(), icon: Icons.home, label: 'Home'),
+    TabItem(
+      page: ChangeNotifierProvider(
+        create: (context) => TeamState(),
+        child: ScoreScreen(),
+      ),
+      icon: Icons.home,
+      label: 'Home',
+    ),
     TabItem(
       page: Center(child: Text('Favorites')),
       icon: Icons.favorite,
@@ -24,7 +33,6 @@ class _HomeScreenState extends State<HomeScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      // 👇 keeps state of each tab (VERY important)
       body: IndexedStack(
         index: selectedIndex,
         children: tabs.map((t) => t.page).toList(),
