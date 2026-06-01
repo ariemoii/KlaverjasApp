@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:klaverjasapp/models/Team.dart';
 import 'package:klaverjasapp/widgets/EnterText.dart';
 import 'package:provider/provider.dart';
+import 'package:klaverjasapp/screens/TestScreen.dart';
 import 'dart:developer';
 
 class EnterNameScreen extends StatefulWidget {
@@ -49,7 +50,7 @@ class _EnterNameScreenState extends State<EnterNameScreen> {
       builder: (context) {
         return AlertDialog(
           title: const Text('Edit team name'),
-          content: TextField(controller: controller),
+          content: TextField(controller: controller, maxLength: 10),
           actions: [
             TextButton(
               onPressed: () => Navigator.pop(context),
@@ -125,7 +126,10 @@ class _EnterNameScreenState extends State<EnterNameScreen> {
                   top: constraints.maxHeight * 0.65 - 20,
                   child: ElevatedButton(
                     onPressed: () => _editTeamNameDialog(Teams.team1),
-                    child: Text(teamState.team1.teamName),
+                    child: Text(
+                      teamState.team1.teamName,
+                      style: TextStyle(color: Colors.blue, fontSize: 20),
+                    ),
                   ),
                 ),
 
@@ -134,7 +138,22 @@ class _EnterNameScreenState extends State<EnterNameScreen> {
                   top: constraints.maxHeight * 0.65 - 20,
                   child: ElevatedButton(
                     onPressed: () => _editTeamNameDialog(Teams.team2),
-                    child: Text(teamState.team2.teamName),
+                    child: Text(
+                      teamState.team2.teamName,
+                      style: TextStyle(color: Colors.red, fontSize: 20),
+                    ),
+                  ),
+                ),
+
+                Center(
+                  child: ElevatedButton(
+                    onPressed: () {
+                      Navigator.pushReplacement(
+                        context,
+                        MaterialPageRoute(builder: (context) => TestScreen()),
+                      );
+                    },
+                    child: const Text("Save  names and start game"),
                   ),
                 ),
               ],

@@ -4,6 +4,8 @@
 3: Enter who is playing
 4: be able to play a boompje (16 rounds)
 5: be able to access previous played games
+refactor so the entering of names is better
+
 
 type of klaverjassen:
 - bidding

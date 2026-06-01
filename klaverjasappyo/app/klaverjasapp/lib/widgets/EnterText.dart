@@ -11,6 +11,7 @@ class EnterText extends StatelessWidget {
     return SizedBox(
       width: 100,
       child: TextField(
+        maxLength: 10,
         onChanged: onChanged,
         decoration: InputDecoration(
           fillColor: Colors.white,
