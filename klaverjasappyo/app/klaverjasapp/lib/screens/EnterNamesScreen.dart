@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:klaverjasapp/state/GameState.dart';
 import 'package:klaverjasapp/models/Team.dart';
 import 'package:klaverjasapp/widgets/EnterText.dart';
 import 'package:provider/provider.dart';
@@ -35,7 +36,7 @@ class _EnterNameScreenState extends State<EnterNameScreen> {
   }
 
   Future<void> _editTeamNameDialog(Teams whatTeam) async {
-    final teamState = context.read<TeamState>();
+    final gameState = context.read<GameState>();
 
     if (whatTeam == Teams.noTeam) {
       log(
@@ -66,17 +67,13 @@ class _EnterNameScreenState extends State<EnterNameScreen> {
     );
 
     if (result != null && result.isNotEmpty) {
-      if (whatTeam == Teams.team1) {
-        teamState.editTeam1TeamName(result);
-      } else {
-        teamState.editTeam2TeamName(result);
-      }
+      gameState.editTeamName(whatTeam, result);
     }
   }
 
   @override
   Widget build(BuildContext context) {
-    final TeamState teamState = context.watch<TeamState>();
+    final GameState gameState = context.watch<GameState>();
 
     return Scaffold(
       body: SizedBox.expand(
@@ -96,29 +93,33 @@ class _EnterNameScreenState extends State<EnterNameScreen> {
                   constraints: constraints,
                   dx: 0.2,
                   dy: 0.15,
-                  name: (value) => teamState.editTeam1FirstTeammateName(value),
-                  hintText: teamState.team1.teamName,
+                  name: (name) =>
+                      gameState.editFirstTeammateName(Teams.team1, name),
+                  hintText: gameState.team1Name,
                 ),
                 _chair(
                   constraints: constraints,
                   dx: 0.8,
                   dy: 0.15,
-                  name: (value) => teamState.editTeam2FirstTeammateName(value),
-                  hintText: teamState.team2.teamName,
+                  name: (name) =>
+                      gameState.editFirstTeammateName(Teams.team2, name),
+                  hintText: gameState.team2Name,
                 ),
                 _chair(
                   constraints: constraints,
                   dx: 0.2,
                   dy: 0.85,
-                  name: (value) => teamState.editTeam2SecondTeammateName(value),
-                  hintText: teamState.team2.teamName,
+                  name: (name) =>
+                      gameState.editSecondTeammateName(Teams.team2, name),
+                  hintText: gameState.team2Name,
                 ),
                 _chair(
                   constraints: constraints,
                   dx: 0.8,
                   dy: 0.85,
-                  name: (value) => teamState.editTeam1SecondTeammateName(value),
-                  hintText: teamState.team1.teamName,
+                  name: (name) =>
+                      gameState.editSecondTeammateName(Teams.team1, name),
+                  hintText: gameState.team1Name,
                 ),
 
                 Positioned(
@@ -127,7 +128,7 @@ class _EnterNameScreenState extends State<EnterNameScreen> {
                   child: ElevatedButton(
                     onPressed: () => _editTeamNameDialog(Teams.team1),
                     child: Text(
-                      teamState.team1.teamName,
+                      gameState.team1Name,
                       style: TextStyle(color: Colors.blue, fontSize: 20),
                     ),
                   ),
@@ -139,12 +140,13 @@ class _EnterNameScreenState extends State<EnterNameScreen> {
                   child: ElevatedButton(
                     onPressed: () => _editTeamNameDialog(Teams.team2),
                     child: Text(
-                      teamState.team2.teamName,
+                      gameState.team2Name,
                       style: TextStyle(color: Colors.red, fontSize: 20),
                     ),
                   ),
                 ),
 
+                //save names widget
                 Center(
                   child: ElevatedButton(
                     onPressed: () {

@@ -1,81 +1,80 @@
-import 'Team.dart';
+import 'package:klaverjasapp/models/Team.dart';
+import 'dart:developer';
 import 'RoemValue.dart';
 
-class RoundScore {
-  int _team1score = 0;
-  int _team2score = 0;
+class Round {
+  Team _team1;
+  Team _team2;
 
-  int _biddedScore = 0;
-  Teams _playingTeam = Teams.noTeam;
+  get team1Name => _team1.teamName;
+  get team2Name => _team2.teamName;
 
-  int get team1score => _team1score;
-  int get team2score => _team2score;
-  int get biddedScore => _biddedScore;
-  Teams get playingTeam => _playingTeam;
+  Round({required Team team1, required Team team2})
+    : _team1 = team1,
+      _team2 = team2;
 
-  //returns the total score once roem added
-  int addRoem(Teams team, RoemValue roem) {
-    if (team == Teams.team1) {
-      _team1score += roem.value;
-      return team1score;
-    } else {
-      _team2score += roem.value;
-      return team2score;
+  void addRoem(Teams whatTeam, RoemValue roem) {
+    switch (whatTeam) {
+      case Teams.team1:
+        _team1.addRoem(roem);
+        break;
+      case Teams.team2:
+        _team2.addRoem(roem);
+        break;
+      default:
+        log("got noTeam in addRoem file: Round.dart");
     }
   }
 
-  //returns the total score once roem substracted
-  int removeRoem(Teams team, RoemValue roem) {
-    if (team == Teams.team1) {
-      _team1score = (_team1score - roem.value).clamp(0, 9999);
-      return team1score;
-    } else {
-      _team2score = (_team2score - roem.value).clamp(0, 9999);
-      return team2score;
+  void removeRoem(Teams whatTeam, RoemValue roem) {
+    switch (whatTeam) {
+      case Teams.team1:
+        _team1.removeRoem(roem);
+        break;
+      case Teams.team2:
+        _team2.removeRoem(roem);
+        break;
+      default:
+        log("got noTeam in removeRoem file: Round.dart");
     }
   }
 
-  //returns the total score once score added
-  int addScore(Teams winningTeam, int score) {
-    if (winningTeam == Teams.team1) {
-      _team1score += score;
-      return team1score;
-    } else {
-      _team2score += score;
-      return team2score;
+  void editFirstTeammateName(Teams whatTeam, String name) {
+    switch (whatTeam) {
+      case Teams.team1:
+        _team1.editFirstTeammateName(name);
+        break;
+      case Teams.team2:
+        _team2.editSecondTeammateName(name);
+        break;
+      default:
+        log("got noTeam in editFirstTeammateName file: Round.dart");
     }
   }
 
-  //returns the bidded score
-  int bidScore(int score, Teams playingTeam) {
-    _biddedScore = score;
-    _playingTeam = playingTeam;
-    return biddedScore;
+  void editSecondTeammateName(Teams whatTeam, String name) {
+    switch (whatTeam) {
+      case Teams.team1:
+        _team1.editFirstTeammateName(name);
+        break;
+      case Teams.team2:
+        _team2.editSecondTeammateName(name);
+        break;
+      default:
+        log("got noTeamm in editSecondTeammateName file: Round.dart");
+    }
   }
 
-  Result calculateAndSetFinalScores() {
-    if (playingTeam == Teams.team1) {
-      if (team1score <= biddedScore) {
-        //NAT!
-        _team2score += _team1score;
-        _team1score = 0;
-      }
+  void editTeamName(Teams whatTeam, String name) {
+    switch (whatTeam) {
+      case Teams.team1:
+        _team1.editTeamName(name);
+        break;
+      case Teams.team2:
+        _team2.editTeamName(name);
+        break;
+      default:
+        log("got noTeam in editTeamName file: Round.dart");
     }
-    if (playingTeam == Teams.team2) {
-      if (team2score <= biddedScore) {
-        //NAT!
-        _team1score += _team2score;
-        _team2score = 0;
-      }
-    }
-
-    return Result(team1score, team2score);
   }
-}
-
-class Result {
-  int team1score;
-  int team2score;
-
-  Result(this.team1score, this.team2score);
 }

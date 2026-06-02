@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:klaverjasapp/screens/EnterNamesScreen.dart';
 import 'package:klaverjasapp/screens/TabItem.dart';
+import 'package:klaverjasapp/state/GameState.dart';
 import 'package:provider/provider.dart';
-import 'package:klaverjasapp/models/Team.dart';
 
 class HomeScreen extends StatefulWidget {
   const HomeScreen({super.key});
@@ -17,7 +17,7 @@ class _HomeScreenState extends State<HomeScreen> {
   final List<TabItem> tabs = [
     TabItem(
       page: ChangeNotifierProvider(
-        create: (context) => TeamState(),
+        create: (context) => GameState(),
         child: EnterNameScreen(),
       ),
       icon: Icons.home,
