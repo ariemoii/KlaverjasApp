@@ -1,6 +1,5 @@
 import 'package:klaverjasapp/models/RoemValue.dart';
 import 'package:klaverjasapp/models/Team.dart';
-import 'package:provider/provider.dart';
 import 'package:flutter/material.dart';
 import '../models/Round.dart';
 
