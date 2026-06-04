@@ -13,6 +13,9 @@ class Scoremanager {
   String get team1Name => team1.teamName;
   String get team2Name => team2.teamName;
 
+  int get team1Score => rounds.fold(0, (sum, round) => sum + round.team1Score);
+  int get team2Score => rounds.fold(0, (sum, round) => sum + round.team2Score);
+
   void nextRound() {
     if (_currentRound == numberOfRounds) {
       rounds.add(Round());

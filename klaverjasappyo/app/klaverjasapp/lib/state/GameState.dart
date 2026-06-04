@@ -6,8 +6,11 @@ import 'package:klaverjasapp/services/ScoreManager.dart';
 class GameState extends ChangeNotifier {
   final Scoremanager _scoreManager = Scoremanager();
 
-  get team1Name => _scoreManager.team1Name;
-  get team2Name => _scoreManager.team2Name;
+  String get team1Name => _scoreManager.team1Name;
+  String get team2Name => _scoreManager.team2Name;
+
+  int get team1Score => _scoreManager.team1Score;
+  int get team2Score => _scoreManager.team2Score;
 
   void addRoem(Teams whatTeam, RoemValue roem) {
     _scoreManager.addRoem(whatTeam, roem);
