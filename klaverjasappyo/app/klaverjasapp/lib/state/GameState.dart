@@ -1,34 +1,36 @@
 import 'package:klaverjasapp/models/RoemValue.dart';
 import 'package:klaverjasapp/models/Team.dart';
 import 'package:flutter/material.dart';
-import '../models/Round.dart';
+import 'package:klaverjasapp/services/ScoreManager.dart';
 
 class GameState extends ChangeNotifier {
-  final Round round = Round(
-    team1: Team(whatTeam: Teams.team1, teamName: "team1"),
-    team2: Team(whatTeam: Teams.team2, teamName: "team2"),
-  );
+  final Scoremanager _scoreManager = Scoremanager();
 
-  get team1Name => round.team1Name;
-  get team2Name => round.team2Name;
+  get team1Name => _scoreManager.team1Name;
+  get team2Name => _scoreManager.team2Name;
 
   void addRoem(Teams whatTeam, RoemValue roem) {
-    round.addRoem(whatTeam, roem);
+    _scoreManager.addRoem(whatTeam, roem);
+    notifyListeners();
+  }
+
+  void removeRoem(Teams whatTeam, RoemValue roem) {
+    _scoreManager.removeRoem(whatTeam, roem);
     notifyListeners();
   }
 
   void editFirstTeammateName(Teams whatTeam, String name) {
-    round.editFirstTeammateName(whatTeam, name);
+    _scoreManager.editFirstTeammateName(whatTeam, name);
     notifyListeners();
   }
 
   void editSecondTeammateName(Teams whatTeam, String name) {
-    round.editFirstTeammateName(whatTeam, name);
+    _scoreManager.editFirstTeammateName(whatTeam, name);
     notifyListeners();
   }
 
   void editTeamName(Teams whatTeam, String name) {
-    round.editTeamName(whatTeam, name);
+    _scoreManager.editTeamName(whatTeam, name);
     notifyListeners();
   }
 }
