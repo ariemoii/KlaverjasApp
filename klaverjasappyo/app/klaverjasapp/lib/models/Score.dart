@@ -14,5 +14,8 @@ class Score {
 
   void removeRoem(RoemValue roem) {
     _roem -= roem.value;
+    if (_roem < 0) {
+      _roem = 0;
+    }
   }
 }

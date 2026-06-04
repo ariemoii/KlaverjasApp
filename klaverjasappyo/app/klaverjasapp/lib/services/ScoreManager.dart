@@ -5,7 +5,7 @@ import 'package:klaverjasapp/models/RoemValue.dart';
 class Scoremanager {
   int numberOfRounds = 0;
   int _currentRound = 0;
-  List<Round> rounds = [];
+  List<Round> rounds = [Round()];
   Team team1 = Team(whatTeam: Teams.team1, teamName: 'Team 1');
   Team team2 = Team(whatTeam: Teams.team2, teamName: 'Team 2');
 

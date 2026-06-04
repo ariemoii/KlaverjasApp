@@ -3,6 +3,7 @@ import 'package:klaverjasapp/models/RoemValue.dart';
 import 'package:klaverjasapp/state/GameState.dart';
 import 'package:klaverjasapp/models/Team.dart';
 import 'package:provider/provider.dart';
+import 'package:klaverjasapp/widgets/ScorePanel.dart';
 
 class ScoreScreen extends StatelessWidget {
   @override
@@ -40,14 +41,26 @@ class ScoreScreen extends StatelessWidget {
                           ),
                         ),
                         const Divider(color: Colors.black, thickness: 10),
+                        _showBottom(
+                          Column(
+                            mainAxisAlignment: MainAxisAlignment.end,
+                            children: [
+                              ShowScore(
+                                gameState: gameState,
+                                team: Teams.team1,
+                              ),
 
-                        Expanded(
-                          child: Align(
-                            alignment: FractionalOffset.bottomCenter,
-                            child: Padding(
-                              padding: const EdgeInsets.only(bottom: 10.0),
-                              child: _RoemButtons(gameState, Teams.team1),
-                            ),
+                              Divider(
+                                color: Colors.black,
+                                height: 2,
+                                thickness: 2,
+                              ),
+
+                              RoemButtons(
+                                gameState: gameState,
+                                team: Teams.team1,
+                              ),
+                            ],
                           ),
                         ),
                       ],
@@ -68,14 +81,26 @@ class ScoreScreen extends StatelessWidget {
                           ),
                         ),
                         const Divider(color: Colors.black, thickness: 10),
+                        _showBottom(
+                          Column(
+                            mainAxisAlignment: MainAxisAlignment.end,
+                            children: [
+                              ShowScore(
+                                gameState: gameState,
+                                team: Teams.team2,
+                              ),
 
-                        Expanded(
-                          child: Align(
-                            alignment: FractionalOffset.bottomCenter,
-                            child: Padding(
-                              padding: const EdgeInsets.only(bottom: 10.0),
-                              child: _RoemButtons(gameState, Teams.team2),
-                            ),
+                              Divider(
+                                color: Colors.black,
+                                height: 2,
+                                thickness: 2,
+                              ),
+
+                              RoemButtons(
+                                gameState: gameState,
+                                team: Teams.team2,
+                              ),
+                            ],
                           ),
                         ),
                       ],
@@ -102,78 +127,13 @@ class ScoreScreen extends StatelessWidget {
   }
 }
 
-Widget _RoemButtons(GameState gameState, Teams whatTeam) {
-  return Column(
-    mainAxisAlignment: MainAxisAlignment.end,
-    children: [
-      Divider(color: Colors.black, thickness: 2, height: 2),
-      Row(
-        children: [
-          _AddRoemButton(RoemValue.twenty, gameState, whatTeam),
-          _AddRoemButton(RoemValue.fifty, gameState, whatTeam),
-        ],
-      ),
-      Row(
-        children: [
-          _RemoveRoemButton(RoemValue.twenty, gameState, whatTeam),
-          _RemoveRoemButton(RoemValue.fifty, gameState, whatTeam),
-        ],
-      ),
-    ],
-  );
-}
-
-Widget _RemoveRoemButton(
-  RoemValue amountRoem,
-  GameState gameState,
-  Teams whatTeam,
-) {
+Widget _showBottom(Widget widget) {
   return Expanded(
     child: Align(
       alignment: FractionalOffset.bottomCenter,
       child: Padding(
         padding: const EdgeInsets.only(bottom: 10.0),
-        child: ElevatedButton(
-          style: ElevatedButton.styleFrom(
-            backgroundColor: Colors.white54,
-            foregroundColor: Colors.black,
-            shape: RoundedRectangleBorder(
-              borderRadius: BorderRadius.circular(20),
-            ),
-          ),
-          onPressed: () {
-            gameState.removeRoem(whatTeam, amountRoem);
-          },
-          child: Text('-${amountRoem.value}'),
-        ),
-      ),
-    ),
-  );
-}
-
-Widget _AddRoemButton(
-  RoemValue amountRoem,
-  GameState gameState,
-  Teams whatTeam,
-) {
-  return Expanded(
-    child: Align(
-      alignment: FractionalOffset.bottomCenter,
-      child: Padding(
-        padding: const EdgeInsets.only(bottom: 10.0),
-        child: ElevatedButton(
-          style: ElevatedButton.styleFrom(
-            backgroundColor: Colors.white54,
-            foregroundColor: Colors.black,
-            shape: RoundedRectangleBorder(
-              borderRadius: BorderRadius.circular(20),
-            ),
-          ),
-          onPressed: () {
-            gameState.addRoem(whatTeam, amountRoem);
-          },
-          child: Text('+${amountRoem.value}'),
-        ),
+        child: widget,
       ),
     ),
   );
