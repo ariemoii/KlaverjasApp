@@ -4,13 +4,14 @@ import 'package:klaverjasapp/models/RoemValue.dart';
 import 'dart:collection';
 
 class Scoremanager {
-  int _currentRound = 0;
   List<Round> _rounds = [Round(roundNumber: 0)];
   Team team1 = Team(whatTeam: Teams.team1, teamName: 'Team 1');
   Team team2 = Team(whatTeam: Teams.team2, teamName: 'Team 2');
 
-  Round get currentRound => _rounds[_currentRound];
-  int get currentRoundIndex => _currentRound;
+  Round? _selectedRound;
+
+  Round? get selectedRound => _selectedRound;
+
   UnmodifiableListView<Round> get rounds => UnmodifiableListView(_rounds);
 
   String get team1Name => team1.teamName;
@@ -21,6 +22,14 @@ class Scoremanager {
 
   void addRound() {
     _rounds.add(Round(roundNumber: _rounds.length));
+  }
+
+  void selectRound(Round round) {
+    if (_selectedRound == round) {
+      _selectedRound = null;
+    } else {
+      _selectedRound = round;
+    }
   }
 
   void editTeamName(Teams whatTeam, String name) {
@@ -48,10 +57,10 @@ class Scoremanager {
   }
 
   void addRoem(Teams whatTeam, RoemValue roem) {
-    currentRound.addRoem(whatTeam, roem);
+    selectedRound?.addRoem(whatTeam, roem);
   }
 
   void removeRoem(Teams whatTeam, RoemValue roem) {
-    currentRound.removeRoem(whatTeam, roem);
+    selectedRound?.removeRoem(whatTeam, roem);
   }
 }

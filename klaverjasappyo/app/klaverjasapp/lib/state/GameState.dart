@@ -14,9 +14,9 @@ class GameState extends ChangeNotifier {
   int get team1Score => _scoreManager.team1Score;
   int get team2Score => _scoreManager.team2Score;
 
-  int get roundNumber => _scoreManager.currentRoundIndex;
-
   UnmodifiableListView<Round> get rounds => _scoreManager.rounds;
+
+  Round? get selectedRound => _scoreManager.selectedRound;
 
   void addRoem(Teams whatTeam, RoemValue roem) {
     _scoreManager.addRoem(whatTeam, roem);
@@ -45,6 +45,11 @@ class GameState extends ChangeNotifier {
 
   void addRound() {
     _scoreManager.addRound();
+    notifyListeners();
+  }
+
+  void selectRound(Round round) {
+    _scoreManager.selectRound(round);
     notifyListeners();
   }
 }
