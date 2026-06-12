@@ -6,8 +6,15 @@ class Round {
   Score _team1Score = Score();
   Score _team2Score = Score();
 
+  int roundNumber = 0;
+
+  Round({required this.roundNumber});
+
   int get team1Score => _team1Score.totalScore;
   int get team2Score => _team2Score.totalScore;
+
+  int get team1Roem => _team1Score.roem;
+  int get team2Roem => _team2Score.roem;
 
   void addRoem(Teams whatTeam, RoemValue roem) {
     if (whatTeam == Teams.team1) {

@@ -14,36 +14,10 @@ class _HomeScreenState extends State<HomeScreen> {
 
   final List<TabItem> tabs = [
     TabItem(page: EnterNameScreen(), icon: Icons.home, label: 'Home'),
-    TabItem(
-      page: Center(child: Text('Favorites')),
-      icon: Icons.favorite,
-      label: 'Favorites',
-    ),
   ];
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      resizeToAvoidBottomInset: false,
-      body: IndexedStack(
-        index: selectedIndex,
-        children: tabs.map((t) => t.page).toList(),
-      ),
-
-      bottomNavigationBar: BottomNavigationBar(
-        currentIndex: selectedIndex,
-        onTap: (index) {
-          setState(() {
-            selectedIndex = index;
-          });
-        },
-        items: tabs
-            .map(
-              (t) =>
-                  BottomNavigationBarItem(icon: Icon(t.icon), label: t.label),
-            )
-            .toList(),
-      ),
-    );
+    return Scaffold(resizeToAvoidBottomInset: false, body: EnterNameScreen());
   }
 }

@@ -1,7 +1,3 @@
-import 'package:klaverjasapp/models/RoemValue.dart';
-
-import 'dart:developer';
-
 class Team {
   String firstTeammate;
   String secondTeammate;

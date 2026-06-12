@@ -2,6 +2,8 @@ import 'package:klaverjasapp/models/RoemValue.dart';
 import 'package:klaverjasapp/models/Team.dart';
 import 'package:flutter/material.dart';
 import 'package:klaverjasapp/services/ScoreManager.dart';
+import 'package:klaverjasapp/models/Round.dart';
+import 'dart:collection';
 
 class GameState extends ChangeNotifier {
   final Scoremanager _scoreManager = Scoremanager();
@@ -11,6 +13,10 @@ class GameState extends ChangeNotifier {
 
   int get team1Score => _scoreManager.team1Score;
   int get team2Score => _scoreManager.team2Score;
+
+  int get roundNumber => _scoreManager.currentRoundIndex;
+
+  UnmodifiableListView<Round> get rounds => _scoreManager.rounds;
 
   void addRoem(Teams whatTeam, RoemValue roem) {
     _scoreManager.addRoem(whatTeam, roem);
@@ -34,6 +40,11 @@ class GameState extends ChangeNotifier {
 
   void editTeamName(Teams whatTeam, String name) {
     _scoreManager.editTeamName(whatTeam, name);
+    notifyListeners();
+  }
+
+  void addRound() {
+    _scoreManager.addRound();
     notifyListeners();
   }
 }

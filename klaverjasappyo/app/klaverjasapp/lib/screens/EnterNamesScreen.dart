@@ -97,21 +97,21 @@ class EnterNameScreen extends StatelessWidget {
           _chair(
             size: size,
             dx: 0.2,
-            dy: 0.75,
+            dy: 0.8,
             name: (name) => gameState.editSecondTeammateName(Teams.team2, name),
             hintText: gameState.team2Name,
           ),
           _chair(
             size: size,
             dx: 0.8,
-            dy: 0.75,
+            dy: 0.8,
             name: (name) => gameState.editSecondTeammateName(Teams.team1, name),
             hintText: gameState.team1Name,
           ),
 
           Positioned(
             left: size.width * 0.2 - 50,
-            top: size.height * 0.55 - 20,
+            top: size.height * 0.6 - 20,
             child: ElevatedButton(
               onPressed: () => _editTeamNameDialog(context, Teams.team1),
               child: Text(
@@ -123,7 +123,7 @@ class EnterNameScreen extends StatelessWidget {
 
           Positioned(
             left: size.width * 0.8 - 50,
-            top: size.height * 0.55 - 20,
+            top: size.height * 0.6 - 20,
             child: ElevatedButton(
               onPressed: () => _editTeamNameDialog(context, Teams.team2),
               child: Text(

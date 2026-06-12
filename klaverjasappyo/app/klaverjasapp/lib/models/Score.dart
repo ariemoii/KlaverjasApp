@@ -5,6 +5,7 @@ class Score {
   int _roem;
 
   int get totalScore => _score + _roem;
+  int get roem => _roem;
 
   Score({score = 0, roem = 0}) : _score = score, _roem = roem;
 

@@ -1,34 +1,26 @@
 import 'package:klaverjasapp/models/Round.dart';
 import 'package:klaverjasapp/models/Team.dart';
 import 'package:klaverjasapp/models/RoemValue.dart';
+import 'dart:collection';
 
 class Scoremanager {
-  int numberOfRounds = 0;
   int _currentRound = 0;
-  List<Round> rounds = [Round()];
+  List<Round> _rounds = [Round(roundNumber: 0)];
   Team team1 = Team(whatTeam: Teams.team1, teamName: 'Team 1');
   Team team2 = Team(whatTeam: Teams.team2, teamName: 'Team 2');
 
-  Round get currentRound => rounds[_currentRound];
+  Round get currentRound => _rounds[_currentRound];
+  int get currentRoundIndex => _currentRound;
+  UnmodifiableListView<Round> get rounds => UnmodifiableListView(_rounds);
+
   String get team1Name => team1.teamName;
   String get team2Name => team2.teamName;
 
-  int get team1Score => rounds.fold(0, (sum, round) => sum + round.team1Score);
-  int get team2Score => rounds.fold(0, (sum, round) => sum + round.team2Score);
+  int get team1Score => _rounds.fold(0, (sum, round) => sum + round.team1Score);
+  int get team2Score => _rounds.fold(0, (sum, round) => sum + round.team2Score);
 
-  void nextRound() {
-    if (_currentRound == numberOfRounds) {
-      rounds.add(Round());
-      numberOfRounds++;
-    } else {
-      _currentRound++;
-    }
-  }
-
-  void previousRound() {
-    if (_currentRound > 0) {
-      _currentRound--;
-    }
+  void addRound() {
+    _rounds.add(Round(roundNumber: _rounds.length));
   }
 
   void editTeamName(Teams whatTeam, String name) {

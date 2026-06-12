@@ -15,7 +15,10 @@ class ShowScore extends StatelessWidget {
         ? gameState.team1Score
         : gameState.team2Score;
 
-    return Text('Score: $score', style: TextStyle(fontSize: 20));
+    return Text(
+      'Total Score: $score',
+      style: TextStyle(fontSize: 20, color: Colors.white),
+    );
   }
 }
 

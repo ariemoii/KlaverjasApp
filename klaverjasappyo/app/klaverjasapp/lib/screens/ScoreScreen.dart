@@ -1,14 +1,14 @@
 import 'package:flutter/material.dart';
-import 'package:klaverjasapp/models/RoemValue.dart';
+import 'package:klaverjasapp/models/Round.dart';
 import 'package:klaverjasapp/state/GameState.dart';
 import 'package:klaverjasapp/models/Team.dart';
 import 'package:provider/provider.dart';
 import 'package:klaverjasapp/widgets/ScorePanel.dart';
+import 'package:klaverjasapp/widgets/RoundScore.dart';
 
 class ScoreScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    final size = MediaQuery.sizeOf(context);
     final GameState gameState = context.watch<GameState>();
 
     return Scaffold(
@@ -26,39 +26,141 @@ class ScoreScreen extends StatelessWidget {
             ),
 
             Positioned.fill(
-              child: Row(
-                mainAxisAlignment: MainAxisAlignment.center,
+              child: Column(
                 children: [
                   Expanded(
-                    child: Column(
-                      mainAxisAlignment: MainAxisAlignment.start,
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.center,
                       children: [
-                        Padding(
-                          padding: const EdgeInsets.only(top: 50.0),
-                          child: Text(
-                            gameState.team1Name,
-                            style: TextStyle(fontSize: 24),
-                          ),
-                        ),
-                        const Divider(color: Colors.black, thickness: 10),
-                        _showBottom(
-                          Column(
-                            mainAxisAlignment: MainAxisAlignment.end,
+                        Expanded(
+                          child: Column(
+                            mainAxisAlignment: MainAxisAlignment.start,
                             children: [
-                              ShowScore(
-                                gameState: gameState,
-                                team: Teams.team1,
+                              Padding(
+                                padding: const EdgeInsets.only(top: 50.0),
+                                child: Text(
+                                  gameState.team1Name,
+                                  style: TextStyle(fontSize: 24),
+                                ),
+                              ),
+                              const Divider(color: Colors.black, thickness: 10),
+
+                              Expanded(
+                                child: ListView(
+                                  children: gameState.rounds.map((round) {
+                                    return RoundScore(
+                                      round: round,
+                                      whatTeam: Teams.team1,
+                                    );
+                                  }).toList(),
+                                ),
                               ),
 
+                              _showBottom(
+                                Column(
+                                  mainAxisAlignment: MainAxisAlignment.end,
+                                  children: [
+                                    Divider(
+                                      color: Colors.black,
+                                      height: 2,
+                                      thickness: 2,
+                                    ),
+
+                                    ShowScore(
+                                      gameState: gameState,
+                                      team: Teams.team1,
+                                    ),
+
+                                    Divider(
+                                      color: Colors.black,
+                                      height: 2,
+                                      thickness: 2,
+                                    ),
+
+                                    RoemButtons(
+                                      gameState: gameState,
+                                      team: Teams.team1,
+                                    ),
+                                  ],
+                                ),
+                              ),
                               Divider(
                                 color: Colors.black,
                                 height: 2,
                                 thickness: 2,
                               ),
+                            ],
+                          ),
+                        ),
 
-                              RoemButtons(
-                                gameState: gameState,
-                                team: Teams.team1,
+                        VerticalDivider(
+                          color: Colors.black,
+                          thickness: 2,
+                          width: 2,
+                        ),
+
+                        Expanded(
+                          child: Column(
+                            mainAxisAlignment: MainAxisAlignment.start,
+                            children: [
+                              Padding(
+                                padding: const EdgeInsets.only(top: 50.0),
+                                child: Text(
+                                  gameState.team2Name,
+                                  style: TextStyle(fontSize: 24),
+                                ),
+                              ),
+                              const Divider(color: Colors.black, thickness: 10),
+
+                              Expanded(
+                                child: ListView(
+                                  children: gameState.rounds.map((round) {
+                                    return RoundScore(
+                                      round: round,
+                                      whatTeam: Teams.team2,
+                                    );
+                                  }).toList(),
+                                ),
+                              ),
+
+                              _showBottom(
+                                Column(
+                                  mainAxisAlignment: MainAxisAlignment.end,
+                                  children: [
+                                    Divider(
+                                      color: Colors.black,
+                                      height: 2,
+                                      thickness: 2,
+                                    ),
+
+                                    Divider(
+                                      color: Colors.black,
+                                      height: 2,
+                                      thickness: 2,
+                                    ),
+
+                                    ShowScore(
+                                      gameState: gameState,
+                                      team: Teams.team2,
+                                    ),
+
+                                    Divider(
+                                      color: Colors.black,
+                                      height: 2,
+                                      thickness: 2,
+                                    ),
+
+                                    RoemButtons(
+                                      gameState: gameState,
+                                      team: Teams.team2,
+                                    ),
+                                  ],
+                                ),
+                              ),
+                              Divider(
+                                color: Colors.black,
+                                height: 2,
+                                thickness: 2,
                               ),
                             ],
                           ),
@@ -67,44 +169,11 @@ class ScoreScreen extends StatelessWidget {
                     ),
                   ),
 
-                  VerticalDivider(color: Colors.black, thickness: 2, width: 2),
-
-                  Expanded(
-                    child: Column(
-                      mainAxisAlignment: MainAxisAlignment.start,
-                      children: [
-                        Padding(
-                          padding: const EdgeInsets.only(top: 50.0),
-                          child: Text(
-                            gameState.team2Name,
-                            style: TextStyle(fontSize: 24),
-                          ),
-                        ),
-                        const Divider(color: Colors.black, thickness: 10),
-                        _showBottom(
-                          Column(
-                            mainAxisAlignment: MainAxisAlignment.end,
-                            children: [
-                              ShowScore(
-                                gameState: gameState,
-                                team: Teams.team2,
-                              ),
-
-                              Divider(
-                                color: Colors.black,
-                                height: 2,
-                                thickness: 2,
-                              ),
-
-                              RoemButtons(
-                                gameState: gameState,
-                                team: Teams.team2,
-                              ),
-                            ],
-                          ),
-                        ),
-                      ],
-                    ),
+                  ElevatedButton(
+                    onPressed: () {
+                      gameState.addRound();
+                    },
+                    child: Text('Add Round'),
                   ),
                 ],
               ),
@@ -128,13 +197,8 @@ class ScoreScreen extends StatelessWidget {
 }
 
 Widget _showBottom(Widget widget) {
-  return Expanded(
-    child: Align(
-      alignment: FractionalOffset.bottomCenter,
-      child: Padding(
-        padding: const EdgeInsets.only(bottom: 10.0),
-        child: widget,
-      ),
-    ),
+  return Align(
+    alignment: FractionalOffset.bottomCenter,
+    child: Padding(padding: const EdgeInsets.only(bottom: 10.0), child: widget),
   );
 }
