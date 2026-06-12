@@ -4,7 +4,7 @@ import 'package:klaverjasapp/models/RoemValue.dart';
 import 'dart:collection';
 
 class Scoremanager {
-  List<Round> _rounds = [];
+  final List<Round> _rounds = [];
   Team team1 = Team(whatTeam: Teams.team1, teamName: 'Team 1');
   Team team2 = Team(whatTeam: Teams.team2, teamName: 'Team 2');
 
@@ -25,7 +25,7 @@ class Scoremanager {
   }
 
   void selectRound(Round round) {
-    if (_selectedRound == round) {
+    if (_selectedRound == round || round.isFinalised) {
       _selectedRound = null;
     } else {
       _selectedRound = round;
@@ -64,5 +64,7 @@ class Scoremanager {
     selectedRound?.removeRoem(whatTeam, roem);
   }
 
-  void finalizeRound() {}
+  void finalizeRound(Teams countingTeam, int score) {
+    selectedRound?.finalizeRound(countingTeam, score);
+  }
 }

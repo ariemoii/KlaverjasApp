@@ -24,16 +24,28 @@ class RoundScore extends StatelessWidget {
         ? round.team1Roem
         : round.team2Roem;
 
+    final int biddedScore = round.biddedScore;
+
     final String playingTeamText = round.playingTeam == Teams.team1
         ? gameState.team1Name
         : gameState.team2Name;
+
+    Color? color;
+    if (isSelected) {
+      color = Colors.blueGrey;
+    } else {
+      color = Colors.white;
+    }
+    if (round.isFinalised) {
+      color = Colors.white10;
+    }
 
     return InkWell(
       onTap: () {
         gameState.selectRound(round);
       },
       child: Card(
-        color: isSelected ? Colors.blueGrey : Colors.white,
+        color: color,
         margin: const EdgeInsets.symmetric(vertical: 4, horizontal: 8),
         elevation: 2,
         shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10)),
@@ -53,8 +65,6 @@ class RoundScore extends StatelessWidget {
                       fontSize: 14,
                     ),
                   ),
-
-                  // 🆕 Playing team
                   Text(
                     playingTeamText,
                     style: const TextStyle(
@@ -72,6 +82,22 @@ class RoundScore extends StatelessWidget {
               Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
+                  Column(
+                    children: [
+                      const Text(
+                        'Bidded',
+                        style: TextStyle(fontSize: 12, color: Colors.grey),
+                      ),
+                      Text(
+                        '$biddedScore',
+                        style: const TextStyle(
+                          fontSize: 16,
+                          fontWeight: FontWeight.bold,
+                        ),
+                      ),
+                    ],
+                  ),
+
                   Column(
                     children: [
                       const Text(

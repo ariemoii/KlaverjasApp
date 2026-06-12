@@ -5,13 +5,17 @@ import 'package:provider/provider.dart';
 import 'package:klaverjasapp/widgets/ScorePanel.dart';
 import 'package:klaverjasapp/widgets/RoundScore.dart';
 import 'package:klaverjasapp/widgets/TeamSelectDialog.dart';
+import 'package:klaverjasapp/widgets/ScoreEnterDialog.dart';
 
 class ScoreScreen extends StatelessWidget {
+  const ScoreScreen({super.key});
+
   @override
   Widget build(BuildContext context) {
     final GameState gameState = context.watch<GameState>();
 
     return Scaffold(
+      resizeToAvoidBottomInset: false,
       body: SafeArea(
         top: false,
         bottom: true,
@@ -179,6 +183,23 @@ class ScoreScreen extends StatelessWidget {
                       gameState.addRound(selectedTeam);
                     },
                     child: Text('Add Round'),
+                  ),
+                  ElevatedButton(
+                    onPressed: () async {
+                      if (gameState.selectedRound == null) return;
+                      final int? score = await showScoreEntryDialog(context);
+                      final Teams? countingTeam = await showTeamSelectDialog(
+                        context,
+                        "What team is counting?",
+                      );
+                      if (score == null) return;
+                      if (countingTeam == null) return;
+                      gameState.finalizeRound(countingTeam, score);
+                      final round = gameState.selectedRound;
+                      if (round == null) return;
+                      gameState.selectRound(round);
+                    },
+                    child: Text('Finalize selected round'),
                   ),
                 ],
               ),

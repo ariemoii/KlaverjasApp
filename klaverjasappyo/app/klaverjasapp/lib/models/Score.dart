@@ -1,22 +1,25 @@
 import 'package:klaverjasapp/models/RoemValue.dart';
 
 class Score {
-  int _score;
-  int _roem;
+  int score;
+  int roem;
 
-  int get totalScore => _score + _roem;
-  int get roem => _roem;
+  int get totalScore => score + roem;
 
-  Score({score = 0, roem = 0}) : _score = score, _roem = roem;
+  Score({this.score = 0, this.roem = 0});
 
-  void addRoem(RoemValue roem) {
-    _roem += roem.value;
+  void addRoem(RoemValue roemVal) {
+    roem += roemVal.value;
   }
 
-  void removeRoem(RoemValue roem) {
-    _roem -= roem.value;
-    if (_roem < 0) {
-      _roem = 0;
+  void removeRoem(RoemValue roemVal) {
+    roem -= roemVal.value;
+    if (roem < 0) {
+      roem = 0;
     }
+  }
+
+  void setScore(int score) {
+    score = score;
   }
 }

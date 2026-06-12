@@ -52,4 +52,9 @@ class GameState extends ChangeNotifier {
     _scoreManager.selectRound(round);
     notifyListeners();
   }
+
+  void finalizeRound(Teams countingTeam, int score) {
+    _scoreManager.finalizeRound(countingTeam, score);
+    notifyListeners();
+  }
 }
