@@ -6,9 +6,15 @@ class Round {
   Score _team1Score = Score();
   Score _team2Score = Score();
 
-  int roundNumber = 0;
+  final int roundNumber;
+  final Teams playingTeam;
+  int biddedScore;
 
-  Round({required this.roundNumber});
+  Round({
+    required this.roundNumber,
+    this.biddedScore = 82,
+    required this.playingTeam,
+  });
 
   int get team1Score => _team1Score.totalScore;
   int get team2Score => _team2Score.totalScore;

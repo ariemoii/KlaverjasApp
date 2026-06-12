@@ -43,8 +43,8 @@ class GameState extends ChangeNotifier {
     notifyListeners();
   }
 
-  void addRound() {
-    _scoreManager.addRound();
+  void addRound(Teams playingTeam) {
+    _scoreManager.addRound(playingTeam);
     notifyListeners();
   }
 

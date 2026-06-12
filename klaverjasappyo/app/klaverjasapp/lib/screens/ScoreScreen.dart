@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
-import 'package:klaverjasapp/models/Round.dart';
 import 'package:klaverjasapp/state/GameState.dart';
 import 'package:klaverjasapp/models/Team.dart';
 import 'package:provider/provider.dart';
 import 'package:klaverjasapp/widgets/ScorePanel.dart';
 import 'package:klaverjasapp/widgets/RoundScore.dart';
+import 'package:klaverjasapp/widgets/TeamSelectDialog.dart';
 
 class ScoreScreen extends StatelessWidget {
   @override
@@ -170,8 +170,13 @@ class ScoreScreen extends StatelessWidget {
                   ),
 
                   ElevatedButton(
-                    onPressed: () {
-                      gameState.addRound();
+                    onPressed: () async {
+                      final Teams? selectedTeam = await showTeamSelectDialog(
+                        context,
+                        "What team is playing?",
+                      );
+                      if (selectedTeam == null) return;
+                      gameState.addRound(selectedTeam);
                     },
                     child: Text('Add Round'),
                   ),

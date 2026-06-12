@@ -24,6 +24,10 @@ class RoundScore extends StatelessWidget {
         ? round.team1Roem
         : round.team2Roem;
 
+    final String playingTeamText = round.playingTeam == Teams.team1
+        ? gameState.team1Name
+        : gameState.team2Name;
+
     return InkWell(
       onTap: () {
         gameState.selectRound(round);
@@ -35,48 +39,69 @@ class RoundScore extends StatelessWidget {
         shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10)),
         child: Padding(
           padding: const EdgeInsets.symmetric(vertical: 10, horizontal: 12),
-          child: Row(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              // Round number
-              Text(
-                'R${round.roundNumber}',
-                style: const TextStyle(
-                  fontWeight: FontWeight.bold,
-                  fontSize: 14,
-                ),
-              ),
-
-              // Score
-              Column(
+              // TOP ROW
+              Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
-                  const Text(
-                    'Score',
-                    style: TextStyle(fontSize: 12, color: Colors.grey),
-                  ),
                   Text(
-                    '$score',
+                    'R${round.roundNumber}',
                     style: const TextStyle(
-                      fontSize: 16,
                       fontWeight: FontWeight.bold,
+                      fontSize: 14,
+                    ),
+                  ),
+
+                  // 🆕 Playing team
+                  Text(
+                    playingTeamText,
+                    style: const TextStyle(
+                      fontSize: 12,
+                      fontWeight: FontWeight.w600,
+                      color: Colors.deepPurple,
                     ),
                   ),
                 ],
               ),
 
-              // Roem
-              Column(
+              const SizedBox(height: 8),
+
+              // SCORE ROW
+              Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
-                  const Text(
-                    'Roem',
-                    style: TextStyle(fontSize: 12, color: Colors.grey),
+                  Column(
+                    children: [
+                      const Text(
+                        'Score',
+                        style: TextStyle(fontSize: 12, color: Colors.grey),
+                      ),
+                      Text(
+                        '$score',
+                        style: const TextStyle(
+                          fontSize: 16,
+                          fontWeight: FontWeight.bold,
+                        ),
+                      ),
+                    ],
                   ),
-                  Text(
-                    '$roem',
-                    style: const TextStyle(
-                      fontSize: 16,
-                      fontWeight: FontWeight.bold,
-                    ),
+
+                  Column(
+                    children: [
+                      const Text(
+                        'Roem',
+                        style: TextStyle(fontSize: 12, color: Colors.grey),
+                      ),
+                      Text(
+                        '$roem',
+                        style: const TextStyle(
+                          fontSize: 16,
+                          fontWeight: FontWeight.bold,
+                        ),
+                      ),
+                    ],
                   ),
                 ],
               ),
