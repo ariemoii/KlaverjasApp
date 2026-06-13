@@ -135,14 +135,36 @@ class EnterNameScreen extends StatelessWidget {
 
           //save names widget
           Center(
-            child: ElevatedButton(
-              onPressed: () {
-                Navigator.push(
-                  context,
-                  MaterialPageRoute(builder: (context) => ScoreScreen()),
-                );
-              },
-              child: const Text("Save  names"),
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    Card(
+                      color: Colors.white,
+                      child: Padding(
+                        padding: const EdgeInsets.all(8.0),
+                        child: const Text('Met Bieden'),
+                      ),
+                    ),
+                    const SizedBox(width: 16),
+                    Switch(
+                      value: gameState.metBieden,
+                      onChanged: (bool val) => gameState.setBieden(val),
+                    ),
+                  ],
+                ),
+                ElevatedButton(
+                  onPressed: () {
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(builder: (context) => ScoreScreen()),
+                    );
+                  },
+                  child: const Text("Save  names"),
+                ),
+              ],
             ),
           ),
         ],

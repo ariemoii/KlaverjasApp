@@ -8,8 +8,12 @@ import 'dart:collection';
 class GameState extends ChangeNotifier {
   final Scoremanager _scoreManager = Scoremanager();
 
+  bool _metBieden = false;
+
   String get team1Name => _scoreManager.team1Name;
   String get team2Name => _scoreManager.team2Name;
+
+  bool get metBieden => _metBieden;
 
   int get team1Score => _scoreManager.team1Score;
   int get team2Score => _scoreManager.team2Score;
@@ -17,6 +21,11 @@ class GameState extends ChangeNotifier {
   UnmodifiableListView<Round> get rounds => _scoreManager.rounds;
 
   Round? get selectedRound => _scoreManager.selectedRound;
+
+  void setBieden(bool val) {
+    _metBieden = val;
+    notifyListeners();
+  }
 
   void addRoem(Teams whatTeam, RoemValue roem) {
     _scoreManager.addRoem(whatTeam, roem);
@@ -54,7 +63,7 @@ class GameState extends ChangeNotifier {
   }
 
   void finalizeRound(Teams countingTeam, int score) {
-    _scoreManager.finalizeRound(countingTeam, score);
+    _scoreManager.finalizeRound(countingTeam, score, metBieden);
     notifyListeners();
   }
 }

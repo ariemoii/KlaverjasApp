@@ -2,7 +2,7 @@ import 'package:klaverjasapp/models/Score.dart';
 import 'package:klaverjasapp/models/Team.dart';
 import 'package:klaverjasapp/models/RoemValue.dart';
 
-const _maxScore = 162;
+const maxScore = 162;
 
 class Round {
   final Score _team1Score = Score();
@@ -19,8 +19,12 @@ class Round {
     required this.playingTeam,
   });
 
-  int get team1Score => _team1Score.totalScore;
-  int get team2Score => _team2Score.totalScore;
+  int get team1TotalScore => _team1Score.totalScore;
+  int get team2TotalScore => _team2Score.totalScore;
+
+  int get team1Score => _team1Score.score;
+  int get team2Score => _team2Score.score;
+
   bool get isFinalised => _isFinalised;
 
   int get team1Roem => _team1Score.roem;
@@ -34,6 +38,10 @@ class Round {
     }
   }
 
+  void setFinalised() {
+    _isFinalised = true;
+  }
+
   void removeRoem(Teams whatTeam, RoemValue roem) {
     if (whatTeam == Teams.team1) {
       _team1Score.removeRoem(roem);
@@ -42,30 +50,24 @@ class Round {
     }
   }
 
-  void finalizeRound(Teams countingTeam, int score) {
-    _isFinalised = true;
-    score = score.clamp(0, _maxScore);
-    final countingScore = (countingTeam == Teams.team1)
+  void natGespeeld(Teams natTeam) {
+    Score natScore = (natTeam == Teams.team1) ? _team1Score : _team2Score;
+    Score other = (natTeam == Teams.team1) ? _team2Score : _team1Score;
+
+    other.score = maxScore;
+    other.roem += natScore.roem;
+
+    natScore.roem = 0;
+    natScore.score = 0;
+  }
+
+  void nietNatGespeeld(int score, Teams countingTeam) {
+    Score countingScore = (playingTeam == Teams.team1)
         ? _team1Score
         : _team2Score;
-    final otherScore = (countingTeam == Teams.team1)
-        ? _team2Score
-        : _team1Score;
-
-    bool isNat =
-        (playingTeam == countingTeam &&
-        (score + countingScore.roem / 2) < biddedScore);
-
-    if (isNat) {
-      otherScore.roem += countingScore.roem;
-      otherScore.score = _maxScore;
-
-      countingScore.roem = 0;
-      countingScore.score = 0;
-      return;
-    }
+    Score other = (playingTeam == Teams.team1) ? _team2Score : _team1Score;
 
     countingScore.score = score;
-    otherScore.score = _maxScore - score;
+    other.score = maxScore - score;
   }
 }
