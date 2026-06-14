@@ -1,12 +1,7 @@
 1: become GOAT
-2: make names such that it is usable === It is now in the Teams object in the _ScoreScreenState
-    - enter teamName
-3: Enter who is playing
-4: be able to play a boompje (16 rounds)
-5: be able to access previous played games
-refactor so the entering of names is better
+normal vs bidding ruleset
+normal vs bidding roem handling
+normal vs bidding score handling
+normal vs bidding nat handling
 
-
-type of klaverjassen:
-- bidding
-- luck-based troef => if this is the case, make it so that you dont have to enter every time which team
+fix het metBieden score handling

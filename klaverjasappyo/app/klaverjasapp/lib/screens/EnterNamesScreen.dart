@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:klaverjasapp/state/GameState.dart';
 import 'package:klaverjasapp/models/Team.dart';
 import 'package:klaverjasapp/widgets/EnterText.dart';
+import 'package:klaverjasapp/widgets/MetBiedenSwitch.dart';
 import 'package:provider/provider.dart';
 import 'package:klaverjasapp/screens/ScoreScreen.dart';
 import 'dart:developer';
@@ -138,25 +139,11 @@ class EnterNameScreen extends StatelessWidget {
             child: Column(
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: [
-                    Card(
-                      color: Colors.white,
-                      child: Padding(
-                        padding: const EdgeInsets.all(8.0),
-                        child: const Text('Met Bieden'),
-                      ),
-                    ),
-                    const SizedBox(width: 16),
-                    Switch(
-                      value: gameState.metBieden,
-                      onChanged: (bool val) => gameState.setBieden(val),
-                    ),
-                  ],
-                ),
+                MetBiedenSwitch(),
+
                 ElevatedButton(
                   onPressed: () {
+                    gameState.startGame();
                     Navigator.push(
                       context,
                       MaterialPageRoute(builder: (context) => ScoreScreen()),

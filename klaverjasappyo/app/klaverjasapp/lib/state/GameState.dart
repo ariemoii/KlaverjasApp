@@ -6,9 +6,10 @@ import 'package:klaverjasapp/models/Round.dart';
 import 'dart:collection';
 
 class GameState extends ChangeNotifier {
-  final RoundFinalizer _roundFinalizer = RoundFinalizer();
+  late final RoundFinalizer _roundFinalizer;
 
   bool _metBieden = false;
+  bool _hasStarted = false;
 
   final List<Round> _rounds = [];
   Team team1 = Team(whatTeam: Teams.team1, teamName: 'Team 1');
@@ -24,11 +25,17 @@ class GameState extends ChangeNotifier {
   String get team2Name => team2.teamName;
 
   bool get metBieden => _metBieden;
+  bool get hasStarted => _hasStarted;
 
   int get team1Score =>
       _rounds.fold(0, (sum, round) => sum + round.team1TotalScore);
   int get team2Score =>
       _rounds.fold(0, (sum, round) => sum + round.team2TotalScore);
+
+  void startGame() {
+    _roundFinalizer = RoundFinalizer.create(metBieden);
+    _hasStarted = true;
+  }
 
   void addRound(Teams playingTeam) {
     _rounds.add(Round(roundNumber: _rounds.length, playingTeam: playingTeam));
@@ -82,12 +89,7 @@ class GameState extends ChangeNotifier {
   }
 
   void finalizeRound(Teams countingTeam, int score) {
-    _roundFinalizer.finalizeRound(
-      countingTeam,
-      score,
-      metBieden,
-      selectedRound,
-    );
+    _roundFinalizer.finalizeRound(countingTeam, score, selectedRound);
     notifyListeners();
   }
 

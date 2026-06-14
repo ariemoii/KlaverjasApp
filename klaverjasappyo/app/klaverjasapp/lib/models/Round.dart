@@ -2,8 +2,6 @@ import 'package:klaverjasapp/models/Score.dart';
 import 'package:klaverjasapp/models/Team.dart';
 import 'package:klaverjasapp/models/RoemValue.dart';
 
-const maxScore = 162;
-
 class Round {
   final Score _team1Score = Score();
   final Score _team2Score = Score();
@@ -50,24 +48,15 @@ class Round {
     }
   }
 
-  void natGespeeld(Teams natTeam) {
-    Score natScore = (natTeam == Teams.team1) ? _team1Score : _team2Score;
-    Score other = (natTeam == Teams.team1) ? _team2Score : _team1Score;
-
-    other.score = maxScore;
-    other.roem += natScore.roem;
-
-    natScore.roem = 0;
-    natScore.score = 0;
+  void setScore(Teams whatTeam, int score) {
+    Score scoreT = (whatTeam == Teams.team1) ? _team1Score : _team2Score;
+    scoreT.setScore(score);
   }
 
-  void nietNatGespeeld(int score, Teams countingTeam) {
-    Score countingScore = (playingTeam == Teams.team1)
-        ? _team1Score
-        : _team2Score;
-    Score other = (playingTeam == Teams.team1) ? _team2Score : _team1Score;
-
-    countingScore.score = score;
-    other.score = maxScore - score;
+  void transferRoem(Teams targetTeam) {
+    Score targetScore = (targetTeam == Teams.team1) ? _team1Score : _team2Score;
+    Score other = (targetTeam == Teams.team1) ? _team2Score : _team1Score;
+    targetScore.roem += other.roem;
+    other.roem = 0;
   }
 }

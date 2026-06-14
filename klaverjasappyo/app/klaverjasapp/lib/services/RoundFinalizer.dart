@@ -1,42 +1,44 @@
+import 'package:flutter/foundation.dart';
 import 'package:klaverjasapp/models/Round.dart';
 import 'package:klaverjasapp/models/Team.dart';
+import 'package:klaverjasapp/services/RoundFinalizerBieden.dart';
+import 'package:klaverjasapp/services/RoundFinalizerNormal.dart';
 
-class RoundFinalizer {
-  void finalizeRound(
-    Teams countingTeam,
-    int score,
-    bool metBieden,
-    Round? selectedRound,
-  ) {
+abstract class RoundFinalizer {
+  int get maxScore;
+
+  @nonVirtual
+  void finalizeRound(Teams countingTeam, int score, Round? selectedRound) {
     Round? round = selectedRound;
     if (round == null) return;
     round.setFinalised();
 
-    if (_isNat(metBieden, countingTeam, score, round)) {
-      print("${round.playingTeam} is nat!");
-      round.natGespeeld(round.playingTeam);
+    if (isNat(countingTeam, score, round)) {
+      natGespeeld(round.playingTeam, round);
     } else {
-      round.nietNatGespeeld(score, countingTeam);
+      nietNatGespeeld(countingTeam, round, score);
     }
   }
 
-  bool _isNat(bool metBieden, Teams countingTeam, int score, Round round) {
-    score = (countingTeam == round.playingTeam) ? score : maxScore - score;
-    int behaaldeRoem = (countingTeam == Teams.team1)
-        ? round.team1Roem
-        : round.team2Roem;
+  @protected
+  bool isNat(Teams countingTeam, int score, Round selectedRound);
 
-    if (metBieden) {
-      //roem telt niet mee
-      if (score < round.biddedScore) {
-        return true;
-      }
-    } else {
-      //roem telt mee
-      if (score + behaaldeRoem / 2 < round.biddedScore) {
-        return true;
-      }
-    }
-    return false;
+  @nonVirtual
+  void natGespeeld(Teams natTeam, Round round) {
+    Teams otherTeam = (natTeam == Teams.team1) ? Teams.team2 : Teams.team1;
+    round.transferRoem(otherTeam);
+    round.setScore(otherTeam, maxScore);
+    round.setScore(natTeam, 0);
+  }
+
+  @nonVirtual
+  void nietNatGespeeld(Teams countingTeam, Round round, int score) {
+    Teams otherTeam = (countingTeam == Teams.team1) ? Teams.team2 : Teams.team1;
+    round.setScore(countingTeam, score);
+    round.setScore(otherTeam, maxScore - score);
+  }
+
+  static RoundFinalizer create(bool metBieden) {
+    return metBieden ? RoundFinalizerBieden() : RoundFinalizerNormal();
   }
 }

@@ -20,6 +20,6 @@ class Score {
   }
 
   void setScore(int score) {
-    score = score;
+    this.score = score;
   }
 }
