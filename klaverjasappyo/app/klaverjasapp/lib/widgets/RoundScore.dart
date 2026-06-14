@@ -37,7 +37,7 @@ class RoundScore extends StatelessWidget {
       color = Colors.white;
     }
     if (round.isFinalised) {
-      color = Colors.white10;
+      color = Colors.white60;
     }
 
     return InkWell(

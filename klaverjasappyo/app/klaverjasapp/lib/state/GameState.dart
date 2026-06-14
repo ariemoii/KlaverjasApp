@@ -1,69 +1,93 @@
 import 'package:klaverjasapp/models/RoemValue.dart';
 import 'package:klaverjasapp/models/Team.dart';
 import 'package:flutter/material.dart';
-import 'package:klaverjasapp/services/ScoreManager.dart';
+import 'package:klaverjasapp/services/RoundFinalizer.dart';
 import 'package:klaverjasapp/models/Round.dart';
 import 'dart:collection';
 
 class GameState extends ChangeNotifier {
-  final Scoremanager _scoreManager = Scoremanager();
+  final RoundFinalizer _scoreManager = RoundFinalizer();
 
   bool _metBieden = false;
 
-  String get team1Name => _scoreManager.team1Name;
-  String get team2Name => _scoreManager.team2Name;
+  final List<Round> _rounds = [];
+  Team team1 = Team(whatTeam: Teams.team1, teamName: 'Team 1');
+  Team team2 = Team(whatTeam: Teams.team2, teamName: 'Team 2');
+
+  Round? _selectedRound;
+
+  Round? get selectedRound => _selectedRound;
+
+  UnmodifiableListView<Round> get rounds => UnmodifiableListView(_rounds);
+
+  String get team1Name => team1.teamName;
+  String get team2Name => team2.teamName;
 
   bool get metBieden => _metBieden;
 
-  int get team1Score => _scoreManager.team1Score;
-  int get team2Score => _scoreManager.team2Score;
-
-  UnmodifiableListView<Round> get rounds => _scoreManager.rounds;
-
-  Round? get selectedRound => _scoreManager.selectedRound;
-
-  void setBieden(bool val) {
-    _metBieden = val;
-    notifyListeners();
-  }
-
-  void addRoem(Teams whatTeam, RoemValue roem) {
-    _scoreManager.addRoem(whatTeam, roem);
-    notifyListeners();
-  }
-
-  void removeRoem(Teams whatTeam, RoemValue roem) {
-    _scoreManager.removeRoem(whatTeam, roem);
-    notifyListeners();
-  }
-
-  void editFirstTeammateName(Teams whatTeam, String name) {
-    _scoreManager.editFirstTeammateName(whatTeam, name);
-    notifyListeners();
-  }
-
-  void editSecondTeammateName(Teams whatTeam, String name) {
-    _scoreManager.editFirstTeammateName(whatTeam, name);
-    notifyListeners();
-  }
-
-  void editTeamName(Teams whatTeam, String name) {
-    _scoreManager.editTeamName(whatTeam, name);
-    notifyListeners();
-  }
+  int get team1Score =>
+      _rounds.fold(0, (sum, round) => sum + round.team1TotalScore);
+  int get team2Score =>
+      _rounds.fold(0, (sum, round) => sum + round.team2TotalScore);
 
   void addRound(Teams playingTeam) {
-    _scoreManager.addRound(playingTeam);
+    _rounds.add(Round(roundNumber: _rounds.length, playingTeam: playingTeam));
     notifyListeners();
   }
 
   void selectRound(Round round) {
-    _scoreManager.selectRound(round);
+    if (_selectedRound == round || round.isFinalised) {
+      _selectedRound = null;
+    } else {
+      _selectedRound = round;
+    }
+    notifyListeners();
+  }
+
+  void editTeamName(Teams whatTeam, String name) {
+    if (whatTeam == Teams.team1) {
+      team1.editTeamName(name);
+    } else if (whatTeam == Teams.team2) {
+      team2.editTeamName(name);
+    }
+    notifyListeners();
+  }
+
+  void editFirstTeammateName(Teams whatTeam, String name) {
+    if (whatTeam == Teams.team1) {
+      team1.editFirstTeammateName(name);
+    } else if (whatTeam == Teams.team2) {
+      team2.editFirstTeammateName(name);
+    }
+    notifyListeners();
+  }
+
+  void editSecondTeammateName(Teams whatTeam, String name) {
+    if (whatTeam == Teams.team1) {
+      team1.editSecondTeammateName(name);
+    } else if (whatTeam == Teams.team2) {
+      team2.editSecondTeammateName(name);
+    }
+    notifyListeners();
+  }
+
+  void addRoem(Teams whatTeam, RoemValue roem) {
+    selectedRound?.addRoem(whatTeam, roem);
+    notifyListeners();
+  }
+
+  void removeRoem(Teams whatTeam, RoemValue roem) {
+    selectedRound?.removeRoem(whatTeam, roem);
     notifyListeners();
   }
 
   void finalizeRound(Teams countingTeam, int score) {
-    _scoreManager.finalizeRound(countingTeam, score, metBieden);
+    _scoreManager.finalizeRound(countingTeam, score, metBieden, selectedRound);
+    notifyListeners();
+  }
+
+  void setBieden(bool val) {
+    _metBieden = val;
     notifyListeners();
   }
 }
