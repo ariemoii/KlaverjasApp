@@ -204,17 +204,6 @@ class ScoreScreen extends StatelessWidget {
                 ],
               ),
             ),
-
-            //the back button, leave for last
-            Positioned(
-              top: 40,
-              left: 20,
-              child: IconButton(
-                onPressed: () => Navigator.pop(context),
-                icon: const Icon(Icons.arrow_back),
-                iconSize: 32,
-              ),
-            ),
           ],
         ),
       ),

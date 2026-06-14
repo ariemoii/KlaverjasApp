@@ -6,7 +6,7 @@ import 'package:klaverjasapp/models/Round.dart';
 import 'dart:collection';
 
 class GameState extends ChangeNotifier {
-  final RoundFinalizer _scoreManager = RoundFinalizer();
+  final RoundFinalizer _roundFinalizer = RoundFinalizer();
 
   bool _metBieden = false;
 
@@ -82,7 +82,12 @@ class GameState extends ChangeNotifier {
   }
 
   void finalizeRound(Teams countingTeam, int score) {
-    _scoreManager.finalizeRound(countingTeam, score, metBieden, selectedRound);
+    _roundFinalizer.finalizeRound(
+      countingTeam,
+      score,
+      metBieden,
+      selectedRound,
+    );
     notifyListeners();
   }
 

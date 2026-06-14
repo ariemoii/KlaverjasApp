@@ -162,7 +162,7 @@ class EnterNameScreen extends StatelessWidget {
                       MaterialPageRoute(builder: (context) => ScoreScreen()),
                     );
                   },
-                  child: const Text("Save  names"),
+                  child: const Text("Save  names and start game"),
                 ),
               ],
             ),
