@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:klaverjasapp/screens/EnterNamesScreen.dart';
+import 'package:klaverjasapp/screens/playgame/EnterNamesScreen.dart';
 import 'package:klaverjasapp/screens/TabItem.dart';
-import 'package:klaverjasapp/screens/Test.dart';
+import 'package:klaverjasapp/screens/savegame/SaveGameScreen.dart';
 
 class HomeScreen extends StatefulWidget {
   const HomeScreen({super.key});
@@ -15,7 +15,7 @@ class _HomeScreenState extends State<HomeScreen> {
 
   final List<TabItem> tabs = [
     TabItem(page: EnterNameScreen(), icon: Icons.home, label: 'Home'),
-    TabItem(page: Test(), icon: Icons.favorite, label: 'Test'),
+    TabItem(page: SaveGameScreen(), icon: Icons.restore, label: 'Load game'),
   ];
 
   @override

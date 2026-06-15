@@ -237,6 +237,21 @@ class ScoreScreen extends StatelessWidget {
                 ],
               ),
             ),
+
+            Positioned(
+              left: 20,
+              top: 20,
+              child: SafeArea(
+                child: IconButton(
+                  style: IconButton.styleFrom(
+                    backgroundColor: Colors.white24,
+                    iconSize: 32,
+                  ),
+                  onPressed: () => Navigator.pop(context),
+                  icon: Icon(Icons.arrow_back),
+                ),
+              ),
+            ),
           ],
         ),
       ),
