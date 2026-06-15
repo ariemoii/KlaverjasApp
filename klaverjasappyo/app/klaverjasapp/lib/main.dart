@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:klaverjasapp/screens/HomeScreen.dart';
 import 'package:provider/provider.dart';
-import 'package:klaverjasapp/state/GameState.dart';
+import 'package:klaverjasapp/GameState/GameState.dart';
 
 void main() {
   runApp(const MyApp());

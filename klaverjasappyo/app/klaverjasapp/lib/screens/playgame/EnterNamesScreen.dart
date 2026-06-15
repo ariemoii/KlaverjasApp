@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
-import 'package:klaverjasapp/state/GameState.dart';
+import 'package:klaverjasapp/GameState/GameState.dart';
 import 'package:klaverjasapp/models/Team.dart';
 import 'package:klaverjasapp/widgets/EnterText.dart';
 import 'package:klaverjasapp/widgets/MetBiedenSwitch.dart';
 import 'package:provider/provider.dart';
-import 'package:klaverjasapp/screens/ScoreScreen.dart';
+import 'package:klaverjasapp/screens/playgame/ScoreScreen.dart';
 import 'dart:developer';
 
 class EnterNameScreen extends StatelessWidget {

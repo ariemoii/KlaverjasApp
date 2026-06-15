@@ -11,6 +11,15 @@ class Team {
     required this.whatTeam,
   });
 
+  Map<String, dynamic> toJson() {
+    return {
+      'firstTeammate': firstTeammate,
+      'secondTeammate': secondTeammate,
+      'teamName': teamName,
+      'whatTeam': whatTeam.name,
+    };
+  }
+
   void editTeamName(String name) {
     teamName = name;
   }

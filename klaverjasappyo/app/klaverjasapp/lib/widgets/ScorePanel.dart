@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:klaverjasapp/models/RoemValue.dart';
-import 'package:klaverjasapp/state/GameState.dart';
+import 'package:klaverjasapp/GameState/GameState.dart';
 import 'package:klaverjasapp/models/Team.dart';
 
 class ShowScore extends StatelessWidget {

@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:klaverjasapp/models/Team.dart';
-import 'package:klaverjasapp/state/GameState.dart';
+import 'package:klaverjasapp/GameState/GameState.dart';
 import 'package:provider/provider.dart';
 
 Future<Teams?> showTeamSelectDialog(BuildContext context, String message) {

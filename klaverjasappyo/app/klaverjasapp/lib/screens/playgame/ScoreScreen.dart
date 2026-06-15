@@ -1,11 +1,12 @@
 import 'package:flutter/material.dart';
-import 'package:klaverjasapp/state/GameState.dart';
+import 'package:klaverjasapp/GameState/GameState.dart';
 import 'package:klaverjasapp/models/Team.dart';
 import 'package:provider/provider.dart';
 import 'package:klaverjasapp/widgets/ScorePanel.dart';
 import 'package:klaverjasapp/widgets/RoundScore.dart';
 import 'package:klaverjasapp/widgets/TeamSelectDialog.dart';
 import 'package:klaverjasapp/widgets/EnterNumberDialog.dart';
+import 'package:klaverjasapp/widgets/SaveGameButton.dart';
 
 class ScoreScreen extends StatelessWidget {
   const ScoreScreen({super.key});
@@ -238,6 +239,7 @@ class ScoreScreen extends StatelessWidget {
               ),
             ),
 
+            //back button
             Positioned(
               left: 20,
               top: 20,
@@ -251,6 +253,12 @@ class ScoreScreen extends StatelessWidget {
                   icon: Icon(Icons.arrow_back),
                 ),
               ),
+            ),
+
+            Positioned(
+              right: 20,
+              bottom: 20,
+              child: SafeArea(child: SaveGameButton()),
             ),
           ],
         ),

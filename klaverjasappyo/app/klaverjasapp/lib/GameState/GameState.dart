@@ -6,6 +6,20 @@ import 'package:klaverjasapp/models/Round.dart';
 import 'dart:collection';
 
 class GameState extends ChangeNotifier {
+  //for saving-------------------------------
+
+  Map<String, dynamic> toJson() {
+    return {
+      'team1': team1.toJson(),
+      'team2': team2.toJson(),
+      '_metBieden': _metBieden,
+      '_hasStarted': _hasStarted,
+      '_rounds': _rounds.map((r) => r.toJson()).toList(),
+    };
+  }
+
+  //-----------------------------------------
+
   late RoundFinalizer _roundFinalizer;
 
   bool _metBieden = false;

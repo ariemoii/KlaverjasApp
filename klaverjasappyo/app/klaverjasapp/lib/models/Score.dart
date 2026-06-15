@@ -22,4 +22,8 @@ class Score {
   void setScore(int score) {
     this.score = score;
   }
+
+  Map<String, dynamic> toJson() {
+    return {'score': score, 'roem': roem};
+  }
 }

@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:klaverjasapp/models/Round.dart';
 import 'package:klaverjasapp/models/Team.dart';
-import 'package:klaverjasapp/state/GameState.dart';
+import 'package:klaverjasapp/GameState/GameState.dart';
 import 'package:provider/provider.dart';
 
 class RoundScore extends StatelessWidget {

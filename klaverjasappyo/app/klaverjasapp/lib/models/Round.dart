@@ -59,4 +59,15 @@ class Round {
     targetScore.roem += other.roem;
     other.roem = 0;
   }
+
+  Map<String, dynamic> toJson() {
+    return {
+      '_team1Score': _team1Score.toJson(),
+      '_team2Score': _team2Score.toJson(),
+      'roundNumber': roundNumber,
+      'playingTeam': playingTeam.name,
+      '_isFinalised': _isFinalised,
+      'biddedScore': biddedScore,
+    };
+  }
 }
