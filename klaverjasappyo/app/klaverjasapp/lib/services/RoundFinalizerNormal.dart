@@ -18,4 +18,11 @@ class RoundFinalizerNormal extends RoundFinalizer {
     }
     return false;
   }
+
+  @override
+  void nietNatGespeeld(Teams countingTeam, Round round, int score) {
+    Teams otherTeam = (countingTeam == Teams.team1) ? Teams.team2 : Teams.team1;
+    round.setScore(countingTeam, score);
+    round.setScore(otherTeam, maxScore - score);
+  }
 }

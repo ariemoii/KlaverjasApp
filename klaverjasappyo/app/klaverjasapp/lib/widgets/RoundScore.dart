@@ -31,13 +31,14 @@ class RoundScore extends StatelessWidget {
         : gameState.team2Name;
 
     Color? color;
-    if (isSelected) {
-      color = Colors.blueGrey;
-    } else {
-      color = Colors.white;
-    }
     if (round.isFinalised) {
       color = Colors.white60;
+    }
+    if (isSelected) {
+      color = Colors.blueGrey;
+    }
+    if (!isSelected && !round.isFinalised) {
+      color = Colors.white;
     }
 
     return InkWell(

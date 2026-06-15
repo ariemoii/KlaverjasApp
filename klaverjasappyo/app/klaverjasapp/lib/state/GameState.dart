@@ -6,7 +6,7 @@ import 'package:klaverjasapp/models/Round.dart';
 import 'dart:collection';
 
 class GameState extends ChangeNotifier {
-  late final RoundFinalizer _roundFinalizer;
+  late RoundFinalizer _roundFinalizer;
 
   bool _metBieden = false;
   bool _hasStarted = false;
@@ -34,7 +34,12 @@ class GameState extends ChangeNotifier {
 
   void startGame() {
     _roundFinalizer = RoundFinalizer.create(metBieden);
+    RoemConfig.init(metBieden);
     _hasStarted = true;
+  }
+
+  void removeGame() {
+    _rounds.clear();
   }
 
   void addRound(Teams playingTeam) {
@@ -42,8 +47,14 @@ class GameState extends ChangeNotifier {
     notifyListeners();
   }
 
+  void removeSelectedRound() {
+    if (selectedRound == null) return;
+    _rounds.remove(selectedRound);
+    notifyListeners();
+  }
+
   void selectRound(Round round) {
-    if (_selectedRound == round || round.isFinalised) {
+    if (_selectedRound == round) {
       _selectedRound = null;
     } else {
       _selectedRound = round;
@@ -88,7 +99,7 @@ class GameState extends ChangeNotifier {
     notifyListeners();
   }
 
-  void finalizeRound(Teams countingTeam, int score) {
+  void finalizeSelectedRound(Teams countingTeam, int score) {
     _roundFinalizer.finalizeRound(countingTeam, score, selectedRound);
     notifyListeners();
   }

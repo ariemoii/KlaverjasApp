@@ -14,4 +14,17 @@ class RoundFinalizerBieden extends RoundFinalizer {
     }
     return false;
   }
+
+  @override
+  void nietNatGespeeld(Teams countingTeam, Round round, int score) {
+    Teams otherTeam = (countingTeam == Teams.team1) ? Teams.team2 : Teams.team1;
+    round.setScore(countingTeam, _afgerond(score));
+    round.setScore(otherTeam, maxScore - _afgerond(score));
+  }
+
+  int _afgerond(int score) {
+    int lastDig = score % 10;
+    lastDig = (lastDig >= 7) ? 1 : 0;
+    return (score ~/ 10 + lastDig);
+  }
 }

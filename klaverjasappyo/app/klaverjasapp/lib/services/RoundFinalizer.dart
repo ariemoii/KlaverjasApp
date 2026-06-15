@@ -31,12 +31,8 @@ abstract class RoundFinalizer {
     round.setScore(natTeam, 0);
   }
 
-  @nonVirtual
-  void nietNatGespeeld(Teams countingTeam, Round round, int score) {
-    Teams otherTeam = (countingTeam == Teams.team1) ? Teams.team2 : Teams.team1;
-    round.setScore(countingTeam, score);
-    round.setScore(otherTeam, maxScore - score);
-  }
+  @protected
+  void nietNatGespeeld(Teams countingTeam, Round round, int score);
 
   static RoundFinalizer create(bool metBieden) {
     return metBieden ? RoundFinalizerBieden() : RoundFinalizerNormal();

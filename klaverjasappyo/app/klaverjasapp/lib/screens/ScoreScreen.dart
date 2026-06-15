@@ -173,16 +173,26 @@ class ScoreScreen extends StatelessWidget {
                     ),
                   ),
 
-                  ElevatedButton(
-                    onPressed: () async {
-                      final Teams? selectedTeam = await showTeamSelectDialog(
-                        context,
-                        "What team is playing?",
-                      );
-                      if (selectedTeam == null) return;
-                      gameState.addRound(selectedTeam);
-                    },
-                    child: Text('Add Round'),
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      ElevatedButton(
+                        onPressed: () async {
+                          final Teams? selectedTeam =
+                              await showTeamSelectDialog(
+                                context,
+                                "What team is playing?",
+                              );
+                          if (selectedTeam == null) return;
+                          gameState.addRound(selectedTeam);
+                        },
+                        child: Text('Add Round'),
+                      ),
+                      ElevatedButton(
+                        onPressed: () => gameState.removeSelectedRound(),
+                        child: Text('Remove selected round'),
+                      ),
+                    ],
                   ),
                   ElevatedButton(
                     onPressed: () async {
@@ -194,7 +204,7 @@ class ScoreScreen extends StatelessWidget {
                       );
                       if (score == null) return;
                       if (countingTeam == null) return;
-                      gameState.finalizeRound(countingTeam, score);
+                      gameState.finalizeSelectedRound(countingTeam, score);
                       final round = gameState.selectedRound;
                       if (round == null) return;
                       gameState.selectRound(round);

@@ -5,3 +5,5 @@ normal vs bidding score handling
 normal vs bidding nat handling
 
 fix het metBieden score handling
+doe een return last action / remove a round
+zorg dat je kan verzaken
