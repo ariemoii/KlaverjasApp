@@ -5,7 +5,7 @@ import 'package:provider/provider.dart';
 import 'package:klaverjasapp/widgets/ScorePanel.dart';
 import 'package:klaverjasapp/widgets/RoundScore.dart';
 import 'package:klaverjasapp/widgets/TeamSelectDialog.dart';
-import 'package:klaverjasapp/widgets/ScoreEnterDialog.dart';
+import 'package:klaverjasapp/widgets/EnterNumberDialog.dart';
 
 class ScoreScreen extends StatelessWidget {
   const ScoreScreen({super.key});
@@ -184,6 +184,20 @@ class ScoreScreen extends StatelessWidget {
                                 "What team is playing?",
                               );
                           if (selectedTeam == null) return;
+                          if (gameState.metBieden) {
+                            final int? geboden;
+                            //you should be able to bied
+                            if (!context.mounted) return;
+                            geboden = await showEnterNumberDialog(
+                              context,
+                              "Give your bod",
+                            );
+                            gameState.addRound(
+                              selectedTeam,
+                              biddedScore: geboden,
+                            );
+                            return;
+                          }
                           gameState.addRound(selectedTeam);
                         },
                         child: Text('Add Round'),
@@ -197,11 +211,20 @@ class ScoreScreen extends StatelessWidget {
                   ElevatedButton(
                     onPressed: () async {
                       if (gameState.selectedRound == null) return;
-                      final int? score = await showScoreEntryDialog(context);
+                      final int? score = await showEnterNumberDialog(
+                        context,
+                        "Enter score",
+                      );
+
+                      if (!context.mounted) return;
+
                       final Teams? countingTeam = await showTeamSelectDialog(
                         context,
                         "What team is counting?",
                       );
+
+                      if (!context.mounted) return;
+
                       if (score == null) return;
                       if (countingTeam == null) return;
                       gameState.finalizeSelectedRound(countingTeam, score);

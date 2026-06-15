@@ -1,18 +1,18 @@
 import 'package:flutter/material.dart';
 
-Future<int?> showScoreEntryDialog(BuildContext context) {
+Future<int?> showEnterNumberDialog(BuildContext context, String text) {
   final controller = TextEditingController();
 
   return showDialog<int>(
     context: context,
     builder: (context) {
       return AlertDialog(
-        title: const Text('Enter score'),
+        title: Text(text),
         content: TextField(
           controller: controller,
           keyboardType: TextInputType.number,
           autofocus: true,
-          decoration: const InputDecoration(hintText: 'Score'),
+          decoration: const InputDecoration(hintText: ''),
         ),
         actions: [
           TextButton(

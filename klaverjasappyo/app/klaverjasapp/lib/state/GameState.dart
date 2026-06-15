@@ -42,8 +42,20 @@ class GameState extends ChangeNotifier {
     _rounds.clear();
   }
 
-  void addRound(Teams playingTeam) {
-    _rounds.add(Round(roundNumber: _rounds.length, playingTeam: playingTeam));
+  void addRound(Teams playingTeam, {int? biddedScore}) {
+    if (biddedScore == null) {
+      _rounds.add(
+        Round(roundNumber: _rounds.length + 1, playingTeam: playingTeam),
+      );
+    } else {
+      _rounds.add(
+        Round(
+          roundNumber: _rounds.length + 1,
+          playingTeam: playingTeam,
+          biddedScore: biddedScore,
+        ),
+      );
+    }
     notifyListeners();
   }
 
