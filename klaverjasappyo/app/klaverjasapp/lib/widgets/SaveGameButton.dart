@@ -14,7 +14,7 @@ class SaveGameButton extends StatelessWidget {
         iconSize: 32,
       ),
       onPressed: () async {
-        await Savegameservice.save(context.read<GameState>());
+        await SaveGameService.saveGame(context.read<GameState>());
       },
       icon: Icon(Icons.save),
     );

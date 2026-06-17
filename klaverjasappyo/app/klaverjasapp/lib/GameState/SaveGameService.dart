@@ -1,25 +1,57 @@
-import 'GameState.dart';
 import 'dart:convert';
 import 'dart:io';
 import 'package:path_provider/path_provider.dart';
+import 'GameState.dart';
 import 'dart:developer';
 
-class Savegameservice {
-  static Future<void> save(GameState gameState) async {
-    print('called!');
+class SaveGameService {
+  static Future<void> saveGame(GameState gameState) async {
     try {
-      final Directory appDocDirectory =
-          await getApplicationDocumentsDirectory();
-      final File file = File('${appDocDirectory.path}/game_state.json');
-      print('filepath = ${file.path}');
+      final dir = await getApplicationDocumentsDirectory();
+      final file = File('${dir.path}/saved_games.json');
 
-      final String jsonString = jsonEncode(gameState.toJson());
+      List<Map<String, dynamic>> games = [];
 
-      await file.writeAsString(jsonString);
+      if (await file.exists()) {
+        final content = await file.readAsString();
+
+        if (content.isNotEmpty) {
+          final decoded = jsonDecode(content);
+          games = List<Map<String, dynamic>>.from(decoded);
+        }
+      }
+
+      games.removeWhere((g) => g['id'] == gameState.id);
+
+      games.add(gameState.toJson());
+
+      await file.writeAsString(jsonEncode(games));
+
+      print("Saved ${games.length} games");
     } catch (e) {
       log('failed to save, error: $e');
     }
   }
 
-  static Future<GameState?> load() async {}
+  static Future<List<GameState>> loadAllGames() async {
+    final dir = await getApplicationDocumentsDirectory();
+    final file = File('${dir.path}/saved_games.json');
+
+    List<Map<String, dynamic>> gamesAsJson = [];
+
+    if (await file.exists()) {
+      final content = await file.readAsString();
+
+      if (content.isNotEmpty) {
+        final decoded = jsonDecode(content);
+        gamesAsJson = List<Map<String, dynamic>>.from(decoded);
+      }
+    }
+
+    List<GameState> games = gamesAsJson
+        .map((asJson) => GameState.fromJson(asJson))
+        .toList();
+
+    return games;
+  }
 }

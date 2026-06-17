@@ -4,12 +4,35 @@ import 'package:flutter/material.dart';
 import 'package:klaverjasapp/services/RoundFinalizer.dart';
 import 'package:klaverjasapp/models/Round.dart';
 import 'dart:collection';
+import 'package:uuid/uuid.dart';
 
 class GameState extends ChangeNotifier {
-  //for saving-------------------------------
+  final String id;
+  late RoundFinalizer _roundFinalizer;
+  bool _metBieden = false;
+  bool _hasStarted = false;
+  final List<Round> _rounds;
+  Team team1;
+  Team team2;
+  Round? _selectedRound;
+
+  GameState({
+    String? id,
+    Team? team1,
+    Team? team2,
+    bool? metBieden,
+    bool? hasStarted,
+    List<Round>? rounds,
+  }) : id = id ?? const Uuid().v4(),
+       team1 = team1 ?? Team(whatTeam: Teams.team2, teamName: 'Wij'),
+       team2 = team2 ?? Team(whatTeam: Teams.team2, teamName: 'Zij'),
+       _metBieden = metBieden ?? false,
+       _hasStarted = hasStarted ?? false,
+       _rounds = rounds ?? [];
 
   Map<String, dynamic> toJson() {
     return {
+      'id': id,
       'team1': team1.toJson(),
       'team2': team2.toJson(),
       '_metBieden': _metBieden,
@@ -18,18 +41,16 @@ class GameState extends ChangeNotifier {
     };
   }
 
-  //-----------------------------------------
-
-  late RoundFinalizer _roundFinalizer;
-
-  bool _metBieden = false;
-  bool _hasStarted = false;
-
-  final List<Round> _rounds = [];
-  Team team1 = Team(whatTeam: Teams.team1, teamName: 'Team 1');
-  Team team2 = Team(whatTeam: Teams.team2, teamName: 'Team 2');
-
-  Round? _selectedRound;
+  factory GameState.fromJson(Map<String, dynamic> json) {
+    return GameState(
+      id: json['id'],
+      team1: json['team1'],
+      team2: json['team2'],
+      metBieden: json['_metBieden'],
+      hasStarted: json['hasStarted'],
+      rounds: json['_rounds'],
+    );
+  }
 
   Round? get selectedRound => _selectedRound;
 
