@@ -13,7 +13,7 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return ChangeNotifierProvider(
-      create: (context) => GameState(),
+      create: (context) => GameManager(),
       child: MaterialApp(title: 'Klaverjas App', home: HomeScreen()),
     );
   }

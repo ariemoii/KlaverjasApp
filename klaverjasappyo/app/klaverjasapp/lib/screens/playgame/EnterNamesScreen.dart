@@ -30,7 +30,7 @@ class EnterNameScreen extends StatelessWidget {
   }
 
   Future<void> _editTeamNameDialog(BuildContext context, Teams whatTeam) async {
-    final gameState = context.read<GameState>();
+    final GameManager gameManager = context.read<GameManager>();
 
     if (whatTeam == Teams.noTeam) {
       log(
@@ -61,13 +61,14 @@ class EnterNameScreen extends StatelessWidget {
     );
 
     if (result != null && result.isNotEmpty) {
-      gameState.editTeamName(whatTeam, result);
+      gameManager.editTeamNameAtActiveGame(whatTeam, result);
     }
   }
 
   @override
   Widget build(BuildContext context) {
-    final GameState gameState = context.watch<GameState>();
+    final GameManager gameManager = context.watch<GameManager>();
+    final GameState gameState = gameManager.activeGame;
     final size = MediaQuery.sizeOf(context);
 
     return Scaffold(
@@ -85,28 +86,40 @@ class EnterNameScreen extends StatelessWidget {
             size: size,
             dx: 0.2,
             dy: 0.15,
-            name: (name) => gameState.editFirstTeammateName(Teams.team1, name),
+            name: (name) => gameManager.editFirstTeammateNameAtActiveGame(
+              Teams.team1,
+              name,
+            ),
             hintText: gameState.team1Name,
           ),
           _chair(
             size: size,
             dx: 0.8,
             dy: 0.15,
-            name: (name) => gameState.editFirstTeammateName(Teams.team2, name),
+            name: (name) => gameManager.editFirstTeammateNameAtActiveGame(
+              Teams.team2,
+              name,
+            ),
             hintText: gameState.team2Name,
           ),
           _chair(
             size: size,
             dx: 0.2,
             dy: 0.8,
-            name: (name) => gameState.editSecondTeammateName(Teams.team2, name),
+            name: (name) => gameManager.editSecondTeammateNameAtActiveGame(
+              Teams.team2,
+              name,
+            ),
             hintText: gameState.team2Name,
           ),
           _chair(
             size: size,
             dx: 0.8,
             dy: 0.8,
-            name: (name) => gameState.editSecondTeammateName(Teams.team1, name),
+            name: (name) => gameManager.editSecondTeammateNameAtActiveGame(
+              Teams.team1,
+              name,
+            ),
             hintText: gameState.team1Name,
           ),
 

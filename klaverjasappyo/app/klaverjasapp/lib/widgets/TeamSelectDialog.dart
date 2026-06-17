@@ -4,7 +4,8 @@ import 'package:klaverjasapp/GameState/GameState.dart';
 import 'package:provider/provider.dart';
 
 Future<Teams?> showTeamSelectDialog(BuildContext context, String message) {
-  GameState gameState = context.read<GameState>();
+  GameManager gameManager = context.read<GameManager>();
+  GameState gameState = gameManager.activeGame;
 
   return showDialog<Teams>(
     context: context,

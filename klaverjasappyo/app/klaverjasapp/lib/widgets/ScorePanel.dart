@@ -23,12 +23,12 @@ class ShowScore extends StatelessWidget {
 }
 
 class AddRoemButton extends StatelessWidget {
-  final GameState gameState;
+  final GameManager gameManager;
   final Teams team;
   final RoemValue amountRoem;
 
   const AddRoemButton({
-    required this.gameState,
+    required this.gameManager,
     required this.team,
     required this.amountRoem,
     super.key,
@@ -43,7 +43,7 @@ class AddRoemButton extends StatelessWidget {
         shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(20)),
       ),
       onPressed: () {
-        gameState.addRoem(team, amountRoem);
+        gameManager.addRoemAtActiveGame(team, amountRoem);
       },
       child: Text('+${amountRoem.value}'),
     );
@@ -51,12 +51,12 @@ class AddRoemButton extends StatelessWidget {
 }
 
 class RemoveRoemButton extends StatelessWidget {
-  final GameState gameState;
+  final GameManager gameManager;
   final Teams team;
   final RoemValue amountRoem;
 
   const RemoveRoemButton({
-    required this.gameState,
+    required this.gameManager,
     required this.team,
     required this.amountRoem,
     super.key,
@@ -71,7 +71,7 @@ class RemoveRoemButton extends StatelessWidget {
         shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(20)),
       ),
       onPressed: () {
-        gameState.removeRoem(team, amountRoem);
+        gameManager.removeRoemAtActiveGame(team, amountRoem);
       },
       child: Text('-${amountRoem.value}'),
     );
@@ -79,10 +79,10 @@ class RemoveRoemButton extends StatelessWidget {
 }
 
 class RoemButtons extends StatelessWidget {
-  final GameState gameState;
+  final GameManager gameManager;
   final Teams team;
 
-  const RoemButtons({required this.gameState, required this.team, super.key});
+  const RoemButtons({required this.gameManager, required this.team, super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -93,12 +93,12 @@ class RoemButtons extends StatelessWidget {
           children: [
             AddRoemButton(
               amountRoem: RoemValue.twenty,
-              gameState: gameState,
+              gameManager: gameManager,
               team: team,
             ),
             AddRoemButton(
               amountRoem: RoemValue.fifty,
-              gameState: gameState,
+              gameManager: gameManager,
               team: team,
             ),
           ],
@@ -107,12 +107,12 @@ class RoemButtons extends StatelessWidget {
           children: [
             RemoveRoemButton(
               amountRoem: RoemValue.twenty,
-              gameState: gameState,
+              gameManager: gameManager,
               team: team,
             ),
             RemoveRoemButton(
               amountRoem: RoemValue.fifty,
-              gameState: gameState,
+              gameManager: gameManager,
               team: team,
             ),
           ],

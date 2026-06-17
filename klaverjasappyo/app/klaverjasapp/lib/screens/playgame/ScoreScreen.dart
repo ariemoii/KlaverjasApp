@@ -17,7 +17,8 @@ class ScoreScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final GameState gameState = context.watch<GameState>();
+    final GameManager gameManager = context.watch<GameManager>();
+    final GameState gameState = gameManager.activeGame;
 
     return Scaffold(
       resizeToAvoidBottomInset: false,
@@ -87,7 +88,7 @@ class ScoreScreen extends StatelessWidget {
                                     ),
 
                                     RoemButtons(
-                                      gameState: gameState,
+                                      gameManager: gameManager,
                                       team: Teams.team1,
                                     ),
                                   ],
@@ -160,7 +161,7 @@ class ScoreScreen extends StatelessWidget {
                                     ),
 
                                     RoemButtons(
-                                      gameState: gameState,
+                                      gameManager: gameManager,
                                       team: Teams.team2,
                                     ),
                                   ],
@@ -197,18 +198,19 @@ class ScoreScreen extends StatelessWidget {
                               context,
                               "Give your bod",
                             );
-                            gameState.addRound(
+                            gameManager.addRound(
                               selectedTeam,
                               biddedScore: geboden,
                             );
                             return;
                           }
-                          gameState.addRound(selectedTeam);
+                          gameManager.addRound(selectedTeam);
                         },
                         child: Text('Add Round'),
                       ),
                       ElevatedButton(
-                        onPressed: () => gameState.removeSelectedRound(),
+                        onPressed: () =>
+                            gameManager.removeSelectedRoundAtActiveGame(),
                         child: Text('Remove selected round'),
                       ),
                     ],
@@ -232,10 +234,13 @@ class ScoreScreen extends StatelessWidget {
 
                       if (score == null) return;
                       if (countingTeam == null) return;
-                      gameState.finalizeSelectedRound(countingTeam, score);
+                      gameManager.finalizeSelectedRoundAtActiveGame(
+                        countingTeam,
+                        score,
+                      );
                       final round = gameState.selectedRound;
                       if (round == null) return;
-                      gameState.selectRound(round);
+                      gameManager.selectRoundAtActiveGame(round);
                     },
                     child: Text('Finalize selected round'),
                   ),

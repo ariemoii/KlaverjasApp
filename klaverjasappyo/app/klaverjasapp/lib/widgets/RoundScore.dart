@@ -12,7 +12,8 @@ class RoundScore extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final gameState = context.watch<GameState>();
+    final GameManager gameManager = context.watch<GameManager>();
+    final GameState gameState = gameManager.activeGame;
 
     final bool isSelected = gameState.selectedRound == round;
 
@@ -43,7 +44,7 @@ class RoundScore extends StatelessWidget {
 
     return InkWell(
       onTap: () {
-        gameState.selectRound(round);
+        gameManager.selectRoundAtActiveGame(round);
       },
       child: Card(
         color: color,

@@ -7,7 +7,8 @@ class MetBiedenSwitch extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final GameState gameState = context.watch<GameState>();
+    final GameManager gameManager = context.watch<GameManager>();
+    final GameState gameState = gameManager.activeGame;
     return Row(
       mainAxisAlignment: MainAxisAlignment.center,
       children: [
@@ -21,7 +22,7 @@ class MetBiedenSwitch extends StatelessWidget {
         const SizedBox(width: 16),
         Switch(
           value: gameState.metBieden,
-          onChanged: (bool val) => gameState.setBieden(val),
+          onChanged: (bool val) => gameManager.setBiedenAtActiveGame(val),
         ),
       ],
     );
