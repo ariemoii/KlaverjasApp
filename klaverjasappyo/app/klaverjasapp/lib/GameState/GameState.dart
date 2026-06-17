@@ -62,13 +62,17 @@ class GameState {
   factory GameState.fromJson(Map<String, dynamic> json) {
     return GameState(
       id: json['id'],
-      team1: json['team1'],
-      team2: json['team2'],
+      team1: Team.fromJson(json['team1']),
+      team2: Team.fromJson(json['team2']),
       metBieden: json['_metBieden'],
       hasStarted: json['hasStarted'],
-      rounds: json['_rounds'],
+      rounds: (json['_rounds'] as List).map((e) => Round.fromJson(e)).toList(),
     );
   }
+
+  @override
+  bool operator ==(Object other) =>
+      identical(this, other) || other is GameState && other.id == id;
 
   void startGame() {
     _roundFinalizer = RoundFinalizer.create(metBieden);
@@ -79,9 +83,10 @@ class GameState {
 
 class GameManager extends ChangeNotifier {
   List<GameState> _games = [];
-  GameState activeGame = GameState();
+  GameState _activeGame = GameState();
 
   List<GameState> get games => _games;
+  GameState get activeGame => _activeGame;
 
   Future<void> loadGames() async {
     _games = await SaveGameService.loadAllGames();
@@ -89,7 +94,11 @@ class GameManager extends ChangeNotifier {
   }
 
   void setActiveGame(GameState gameState) {
-    activeGame = gameState;
+    if (activeGame == gameState) {
+      _activeGame = GameState();
+    } else {
+      _activeGame = gameState;
+    }
     notifyListeners();
   }
 

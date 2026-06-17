@@ -8,6 +8,14 @@ class Score {
 
   Score({this.score = 0, this.roem = 0});
 
+  factory Score.fromJson(Map<String, dynamic> json) {
+    return Score(roem: json['roem'], score: json['score']);
+  }
+
+  Map<String, dynamic> toJson() {
+    return {'score': score, 'roem': roem};
+  }
+
   void addRoem(RoemValue roemVal) {
     roem += roemVal.value;
   }
@@ -21,9 +29,5 @@ class Score {
 
   void setScore(int score) {
     this.score = score;
-  }
-
-  Map<String, dynamic> toJson() {
-    return {'score': score, 'roem': roem};
   }
 }

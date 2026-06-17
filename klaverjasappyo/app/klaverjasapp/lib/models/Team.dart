@@ -11,6 +11,15 @@ class Team {
     required this.whatTeam,
   });
 
+  factory Team.fromJson(Map<String, dynamic> json) {
+    return Team(
+      firstTeammate: json['firstTeammate'],
+      secondTeammate: json['secondTeammate'],
+      teamName: json['teamName'],
+      whatTeam: Teams.values.byName(json['whatTeam']),
+    );
+  }
+
   Map<String, dynamic> toJson() {
     return {
       'firstTeammate': firstTeammate,
