@@ -54,4 +54,10 @@ class SaveGameService {
 
     return games;
   }
+
+  static Future<void> resetGames() async {
+    final dir = await getApplicationDocumentsDirectory();
+    final file = File('${dir.path}/saved_games.json');
+    file.writeAsString('');
+  }
 }

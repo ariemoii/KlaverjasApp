@@ -74,6 +74,9 @@ class GameState {
   bool operator ==(Object other) =>
       identical(this, other) || other is GameState && other.id == id;
 
+  @override
+  int get hashCode => id.hashCode;
+
   void startGame() {
     _roundFinalizer = RoundFinalizer.create(metBieden);
     RoemConfig.init(metBieden);
@@ -87,6 +90,11 @@ class GameManager extends ChangeNotifier {
 
   List<GameState> get games => _games;
   GameState get activeGame => _activeGame;
+
+  void playNewGame() {
+    GameState newGame = GameState();
+    games.add(newGame);
+  }
 
   Future<void> loadGames() async {
     _games = await SaveGameService.loadAllGames();

@@ -15,6 +15,7 @@ class EnterNameScreen extends StatelessWidget {
     required double dx,
     required double dy,
     required ValueChanged<String> name,
+    required currentName,
     String? hintText,
   }) {
     return Positioned(
@@ -25,6 +26,7 @@ class EnterNameScreen extends StatelessWidget {
           name(value);
         },
         hintText: hintText,
+        name: currentName,
       ),
     );
   }
@@ -67,108 +69,103 @@ class EnterNameScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final keyboardOpen = MediaQuery.of(context).viewInsets.bottom > 0;
+
     final GameManager gameManager = context.watch<GameManager>();
     final GameState gameState = gameManager.activeGame;
     final size = MediaQuery.sizeOf(context);
 
-    return Scaffold(
-      resizeToAvoidBottomInset: false,
-      body: Stack(
-        children: [
-          Positioned.fill(
-            child: Image.asset(
-              'assets/table_with_playing_cards.png',
-              fit: BoxFit.cover,
-            ),
+    return Stack(
+      children: [
+        Positioned.fill(
+          child: Image.asset(
+            'assets/table_with_playing_cards.png',
+            fit: BoxFit.cover,
           ),
+        ),
 
-          _chair(
-            size: size,
-            dx: 0.2,
-            dy: 0.15,
-            name: (name) => gameManager.editFirstTeammateNameAtActiveGame(
-              Teams.team1,
-              name,
-            ),
-            hintText: gameState.team1Name,
-          ),
-          _chair(
-            size: size,
-            dx: 0.8,
-            dy: 0.15,
-            name: (name) => gameManager.editFirstTeammateNameAtActiveGame(
-              Teams.team2,
-              name,
-            ),
-            hintText: gameState.team2Name,
-          ),
-          _chair(
-            size: size,
-            dx: 0.2,
-            dy: 0.8,
-            name: (name) => gameManager.editSecondTeammateNameAtActiveGame(
-              Teams.team2,
-              name,
-            ),
-            hintText: gameState.team2Name,
-          ),
-          _chair(
-            size: size,
-            dx: 0.8,
-            dy: 0.8,
-            name: (name) => gameManager.editSecondTeammateNameAtActiveGame(
-              Teams.team1,
-              name,
-            ),
-            hintText: gameState.team1Name,
-          ),
+        _chair(
+          size: size,
+          dx: 0.2,
+          dy: 0.15,
+          name: (name) =>
+              gameManager.editFirstTeammateNameAtActiveGame(Teams.team1, name),
+          hintText: gameState.team1Name,
+          currentName: gameState.team1.firstTeammate,
+        ),
+        _chair(
+          size: size,
+          dx: 0.8,
+          dy: 0.15,
+          name: (name) =>
+              gameManager.editFirstTeammateNameAtActiveGame(Teams.team2, name),
+          hintText: gameState.team2Name,
+          currentName: gameState.team2.firstTeammate,
+        ),
+        _chair(
+          size: size,
+          dx: 0.2,
+          dy: keyboardOpen ? 0.5 : 0.8,
+          name: (name) =>
+              gameManager.editSecondTeammateNameAtActiveGame(Teams.team2, name),
+          hintText: gameState.team2Name,
+          currentName: gameState.team2.secondTeammate,
+        ),
+        _chair(
+          size: size,
+          dx: 0.8,
+          dy: keyboardOpen ? 0.5 : 0.8,
+          name: (name) =>
+              gameManager.editSecondTeammateNameAtActiveGame(Teams.team1, name),
+          hintText: gameState.team1Name,
+          currentName: gameState.team1.secondTeammate,
+        ),
 
-          Positioned(
-            left: size.width * 0.2 - 50,
-            top: size.height * 0.6 - 20,
-            child: ElevatedButton(
-              onPressed: () => _editTeamNameDialog(context, Teams.team1),
-              child: Text(
-                gameState.team1Name,
-                style: TextStyle(color: Colors.blue, fontSize: 20),
+        Positioned(
+          left: size.width * 0.2 - 50,
+          top: size.height * 0.6 - 20,
+          child: ElevatedButton(
+            onPressed: () => _editTeamNameDialog(context, Teams.team1),
+            child: Text(
+              gameState.team1Name,
+              style: TextStyle(color: Colors.blue, fontSize: 20),
+            ),
+          ),
+        ),
+
+        Positioned(
+          left: size.width * 0.8 - 50,
+          top: size.height * 0.6 - 20,
+          child: ElevatedButton(
+            onPressed: () => _editTeamNameDialog(context, Teams.team2),
+            child: Text(
+              gameState.team2Name,
+              style: TextStyle(color: Colors.red, fontSize: 20),
+            ),
+          ),
+        ),
+
+        //save names widget
+        Center(
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              MetBiedenSwitch(),
+
+              ElevatedButton(
+                onPressed: () {
+                  gameState.startGame();
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(builder: (context) => ScoreScreen()),
+                  );
+                },
+                child: const Text("Save  names and start game"),
               ),
-            ),
+            ],
           ),
-
-          Positioned(
-            left: size.width * 0.8 - 50,
-            top: size.height * 0.6 - 20,
-            child: ElevatedButton(
-              onPressed: () => _editTeamNameDialog(context, Teams.team2),
-              child: Text(
-                gameState.team2Name,
-                style: TextStyle(color: Colors.red, fontSize: 20),
-              ),
-            ),
-          ),
-
-          //save names widget
-          Center(
-            child: Column(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: [
-                MetBiedenSwitch(),
-
-                ElevatedButton(
-                  onPressed: () {
-                    gameState.startGame();
-                    Navigator.push(
-                      context,
-                      MaterialPageRoute(builder: (context) => ScoreScreen()),
-                    );
-                  },
-                  child: const Text("Save  names and start game"),
-                ),
-              ],
-            ),
-          ),
-        ],
-      ),
+        ),
+      ],
     );
   }
 }

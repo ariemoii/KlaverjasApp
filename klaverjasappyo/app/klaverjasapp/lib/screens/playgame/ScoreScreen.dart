@@ -8,10 +8,6 @@ import 'package:klaverjasapp/widgets/TeamSelectDialog.dart';
 import 'package:klaverjasapp/widgets/EnterNumberDialog.dart';
 import 'package:klaverjasapp/widgets/SaveGameButton.dart';
 
-//for debugging
-import 'dart:io';
-import 'package:path_provider/path_provider.dart';
-
 class ScoreScreen extends StatelessWidget {
   const ScoreScreen({super.key});
 
@@ -268,20 +264,6 @@ class ScoreScreen extends StatelessWidget {
               right: 20,
               bottom: 20,
               child: SafeArea(child: SaveGameButton()),
-            ),
-
-            //debug button, remove in prod
-            Positioned(
-              right: 20,
-              bottom: 300,
-              child: ElevatedButton(
-                onPressed: () async {
-                  final dir = await getApplicationDocumentsDirectory();
-                  final file = File('${dir.path}/saved_games.json');
-                  await file.writeAsString('[]');
-                },
-                child: Text('Reset saves'),
-              ),
             ),
           ],
         ),

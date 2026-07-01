@@ -7,3 +7,6 @@ normal vs bidding nat handling
 fix het metBieden score handling
 doe een return last action / remove a round
 zorg dat je kan verzaken
+
+zorg dat de resetGame knop de ui update
+check of je goed een game kan added
