@@ -13,7 +13,7 @@ class ShowGameState extends StatelessWidget {
 
     final bool isSelected = gameManager.activeGame == gameState;
 
-    final color;
+    final Color color;
     if (isSelected) {
       color = Colors.blueGrey;
     } else {

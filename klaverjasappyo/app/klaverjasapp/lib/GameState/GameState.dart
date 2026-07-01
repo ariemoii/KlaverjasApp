@@ -94,6 +94,7 @@ class GameManager extends ChangeNotifier {
   void playNewGame() {
     GameState newGame = GameState();
     games.add(newGame);
+    _activeGame = newGame;
   }
 
   Future<void> loadGames() async {

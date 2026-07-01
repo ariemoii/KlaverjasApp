@@ -60,4 +60,24 @@ class SaveGameService {
     final file = File('${dir.path}/saved_games.json');
     file.writeAsString('');
   }
+
+  static Future<void> deleteGame(GameState game) async {
+    final dir = await getApplicationDocumentsDirectory();
+    final file = File('${dir.path}/saved_games.json');
+
+    if (await file.exists()) {
+      final content = await file.readAsString();
+
+      if (content.isNotEmpty) {
+        final decoded = jsonDecode(content);
+        List<Map<String, dynamic>> games = List<Map<String, dynamic>>.from(
+          decoded,
+        );
+
+        games.removeWhere((g) => GameState.fromJson(g) == game);
+
+        await file.writeAsString(jsonEncode(games));
+      }
+    }
+  }
 }
